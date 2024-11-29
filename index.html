@@ -4,13 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Chewy&display=swap"
-        rel="stylesheet">
     <link rel="stylesheet" href="./src/librerias/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./src/styles/normalize.css">
     <link rel="stylesheet" href="./src/styles/style.css">
+    <link rel="stylesheet" href="./src/styles/fonts.css">
     <title>El Rincon De Alejandro</title>
 </head>
 
@@ -22,30 +19,57 @@
                 <h1 class="titulo">El Rincon De Alejandro</h1>
             </div>
             <div class="container_enlaces">
-                <div class="cajabuscar">
-                    <form method="get" id="buscarform" class="caja">
-                        <i class="fa  fa-search" aria-hidden="true"></i>
-                        <input type="text" id="s" value="" placeholder="Buscar" />
-                    </form>
-                </div>
-                <div></div>
 
             </div>
+        </div>
         </div>
     </header>
 
     <main>
-        <div class="container_banner">
-            <div class="container_banner-img ">
+        <section class="section_container">
 
+            <div class="section_banner">
+                <div class="section-bienvenida">
+                    <h3 class="subtitulo2">Te damos la bienvenida.</h3>
+                    <h4 class="subtitulo3">Millones de películas, series y gente por descubrir. Explora ya.</h4>
+                </div>
+                <div class="section_buscar">
+                    <div class="cajabuscar">
+                        <form method="get" id="buscarform" class="caja">
+                            <i class="fa  fa-search" aria-hidden="true"></i>
+                            <input type="text" id="s" value="" placeholder="Buscar" />
+                        </form>
+                        <button class="btn-buscar">Buscar</button>
+
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="body_carrusel">
+            <div class="container-carousel">
+                <div class="carruseles" id="slider">
+                    <section class="slider-section">
+                        <img src="./src/img/peli-1.jpg">
+                    </section>
+                    <section class="slider-section">
+                        <img src="./src/img/banner-2.jpg">
+                    </section>
+                    <section class="slider-section">
+                        <img src="./src/img/peli-1.jpg">
+                </div>
+                <div class="btn-left"><i class="fa fa-angle-right fa-flip-horizontal" aria-hidden="true"></i></div>
+                <div class="btn-right"><i class="fa fa-angle-right" aria-hidden="true"></i></div>
             </div>
         </div>
-        <div>
 
-        </div>
+
+
         <div class="container_subtitulo">
-            <h2 class="subtitulo">R E C O M E N D A D O S</h2>
+            <h2 class="subtitulo">LO MAS VISTO</h2>
         </div>
+
         <div class="secciones">
             <div class="seccion">
                 <div class="peli">
@@ -63,7 +87,7 @@
                         </a>
                         <div class="titulo_peli">
                             <p>El bar Coyote (2000)</p>
-                        </div>           
+                        </div>
                     </div>
                     <div class="peli_individual">
                         <a href="">
@@ -71,7 +95,7 @@
                         </a>
                         <div class="titulo_peli">
                             <p>Deadpool & Wolverine (2024)</p>
-                        </div>    
+                        </div>
                     </div>
                     <div class="peli_individual">
                         <a href="">
@@ -79,16 +103,11 @@
                         </a>
                         <div class="titulo_peli">
                             <p>Mejor... imposible (1997)</p>
-                        </div>               
+                        </div>
                     </div>
-                    <div class="peli_individual">
-                        <a href="">
-                            <img class="peli_logo" src="./src/img/foto-05.jpg" alt="IMG-PELI">
-                        </a>
-                        <div class="titulo_peli">
-                            <p>Pearl Harbor (2001)</p>
-                        </div>            
-                    </div>
+                    
+
+
                 </div>
             </div>
             <div class="seccion">
@@ -99,7 +118,7 @@
                         </a>
                         <div class="titulo_peli">
                             <p>Spider-Man: Sin camino a casa (2021)</p>
-                        </div>               
+                        </div>
                     </div>
                     <div class="peli_individual">
                         <a href="">
@@ -107,7 +126,7 @@
                         </a>
                         <div class="titulo_peli">
                             <p>Tango y Cash (1989)</p>
-                        </div>        
+                        </div>
                     </div>
                     <div class="peli_individual">
                         <a href="">
@@ -115,7 +134,7 @@
                         </a>
                         <div class="titulo_peli">
                             <p>La casa del lago (2006)</p>
-                        </div>   
+                        </div>
                     </div>
                     <div class="peli_individual">
                         <a href="">
@@ -123,18 +142,54 @@
                         </a>
                         <div class="titulo_peli">
                             <p>El diario de Noah (2004)</p>
-                        </div>         
+                        </div>
                     </div>
+                </div>
+            </div>
+            <div class="seccion">
+                <div class="peli">
+
+
+
                     <div class="peli_individual">
                         <a href="">
                             <img class="peli_logo" src="./src/img/foto-10.jpg" alt="IMG-PELI">
                         </a>
                         <div class="titulo_peli">
                             <p>Titanic (1997)</p>
-                        </div>                     
+                        </div>
+                    </div>
+                    <div class="peli_individual">
+                        <a href="">
+                            <img class="peli_logo" src="./src/img/peli-5.jpg" alt="IMG-PELI">
+                        </a>
+                        <div class="titulo_peli">
+                            <p>Pearl Harbor (2001)</p>
+                        </div>
+                    </div>
+                    <div class="peli_individual">
+                        <a href="">
+                            <img class="peli_logo" src="./src/img/peli-4.jpg" alt="IMG-PELI">
+                        </a>
+                        <div class="titulo_peli">
+                            <p>Pearl Harbor (2001)</p>
+                        </div>
+                    </div>
+                    <div class="peli_individual">
+                        <a href="">
+                            <img class="peli_logo" src="./src/img/foto-05.jpg" alt="IMG-PELI">
+                        </a>
+                        <div class="titulo_peli">
+                            <p>Pearl Harbor (2001)</p>
+                        </div>
                     </div>
                 </div>
             </div>
+        </div>
+
+
+
+
 
     </main>
     <footer>
@@ -161,6 +216,8 @@
 
         </div>
     </footer>
+
+    <script src="./src/js/app.js"></script>
 </body>
 
 </html>
