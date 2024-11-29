@@ -444,11 +444,48 @@ p {
     align-items: center;
     margin-top: 50px;
 }
+
 .table-comentario {
     border-style: solid;
     border-color: white;
     border-radius: 15px;
     width: 800px;
     height: 400px;
+    display: flex;
+    flex-direction: column;
+}
 
+.comentarios-exitente {
+    height: 80%;
+}
+
+.crear-comenterio {
+    height: 20%;
+
+}
+
+.comentario {
+    padding: 20px 30px 20px 30px;
+
+}
+
+.comentario {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px;
+    border-bottom-color: white;
+    border-bottom-style: solid;
+}
+
+.comentario img {
+    width: 40px;
+    height: 40px;
+}
+
+.comentario h4 {
+    padding-left: 50px;
+}
+
+.container-comentario {
+    display: flex;
 }
