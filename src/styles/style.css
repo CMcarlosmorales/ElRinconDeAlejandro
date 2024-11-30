@@ -23,7 +23,7 @@ h5 {
 }
 
 .page {
-    background-color: #242E49;
+    background-color: #1A2D42;
 }
 
 .nav_container {
@@ -59,6 +59,11 @@ h5 {
     justify-content: center;
     align-items: center;
 
+}
+
+.container_enlaces a{
+    color: #fda481;
+    margin-right: 15px;
 }
 
 .section_container {

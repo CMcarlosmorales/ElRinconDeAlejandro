@@ -14,7 +14,7 @@ body{
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: #C0C8CA;
+    background: #1A2D42;
 }
 
 .login_box{
@@ -191,12 +191,12 @@ hr{
 
 .sign_up p{
     font-size: 14px;
-    color: #333;
+    color: #ccc;
 }
 
 .sign_up p>a{
     text-decoration: none;
-    color: #2E4156;
+    color: #fff;
 }
 
 @media only screen and (max-width: 510px){
