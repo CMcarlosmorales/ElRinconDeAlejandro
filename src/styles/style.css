@@ -73,6 +73,7 @@ h5 {
     flex-direction: column;
     background-image: url(/src/img/banner-blue.png);
     background-repeat: no-repeat;
+    background-size: 100%;
 
 }
 
