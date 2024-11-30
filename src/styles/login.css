@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+}
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: #C0C8CA;
+}
+
+.login_box{
+    position: relative;
+    width: 470px;
+    height: 520px;
+    padding: 10px 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.login_header{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin: 20px 0 50px 0;
+}
+
+.login_header header{
+    font-family: 'poppins', 'sans-serif';
+    color: #333;
+    font-size: 30px;
+    margin-bottom: 5px;
+}
+
+.login_header{
+    color: #555;
+}
+
+.input_box{
+    position: relative;
+    width: 100%;
+}
+
+.input_box label{
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    color: #555;
+    transition: .15s ease-in-out;
+}
+
+.input_box input, .input_box button{
+    width: 100%;
+    height: 50px;
+}
+
+.input_box .input_field{
+    font-size: 16px;
+    color: #333;
+    padding-left: 15px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    outline: none;
+}
+
+.input_box input[type="password"]{
+    margin-bottom: 10px;
+}
+
+.input_box .input_field:focus{
+    border: 2px solid #1A2D42;
+}
+
+.input_field:focus ~ label, .input_field:valid ~ label{
+    top: -8px;
+    left: 12px;
+    font-size: 12px;
+    color: #2E4156;
+    background: #fff;
+    padding: 0 5px;
+}
+
+.input_field:valid ~ label{
+    color: #555;
+}
+
+.forgot{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+}
+
+section{
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #555;
+}
+
+#check{
+    margin-right: 10px;
+}
+
+section .forgot_link{
+    font-weight: 500;
+    text-decoration: none;
+    color: #37415C;
+}
+
+.input_submit{
+    font-family: 'poppins', 'sans-serif';
+    font-size: 15px;
+    color: #C0C8CA;
+    background: #2E4156;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.middle_text{
+    position: relative;
+    width: 100%;
+    margin: 30px 0;
+}
+
+.o_text{
+    font-family: 'poppins', 'sans-serif';
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    color: #777;
+    padding: 10px;
+}
+
+hr{
+    border: 1px solid #ddd;
+}
+
+.social_sign_in{
+    display: flex;
+    gap: 15px;
+}
+
+.social_sign_in button{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.input_google{
+    width: 100%;
+    height: 50px;
+    padding: 0 30px;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.input_google img{
+    width: 25px;
+}
+
+.input_google p{
+    font-family: 'poppins', 'sans-serif';
+    font-size: 15px;
+    width: 90%;
+}
+
+.input_submit:hover,
+.input_google:hover{
+    opacity: 0.9;
+}
+
+.sign_up{
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+}
+
+.sign_up p{
+    font-size: 14px;
+    color: #333;
+}
+
+.sign_up p>a{
+    text-decoration: none;
+    color: #2E4156;
+}
+
+@media only screen and (max-width: 510px){
+    .login_box{
+        padding: 10px 30px;
+        margin: 20px;
+    }
+}
+
+@media only screen and (max-width: 415px){
+    .login_box{
+        padding: 10px 25px;
+        margin: 15px;
+    }
+}
