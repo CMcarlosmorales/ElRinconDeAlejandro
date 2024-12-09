@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   viewBox="0 0 512 512"
+   version="1.1"
+   id="svg1"
+   sodipodi:docname="facebook-brands-solid.svg"
+   inkscape:version="1.4 (86a8ad7, 2024-10-11)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs1" />
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="1.2246094"
+     inkscape:cx="256"
+     inkscape:cy="256"
+     inkscape:window-width="1600"
+     inkscape:window-height="829"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg1" />
+  <!--!Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
+  <path
+     d="M512 256C512 114.6 397.4 0 256 0S0 114.6 0 256C0 376 82.7 476.8 194.2 504.5V334.2H141.4V256h52.8V222.3c0-87.1 39.4-127.5 125-127.5c16.2 0 44.2 3.2 55.7 6.4V172c-6-.6-16.5-1-29.6-1c-42 0-58.2 15.9-58.2 57.2V256h83.6l-14.4 78.2H287V510.1C413.8 494.8 512 386.9 512 256h0z"
+     id="path1" />
+  <path
+     style="fill:#ffffff;stroke-width:0.816587"
+     d="m 287.0303,422.05182 v -87.64194 l 34.87879,-0.21291 34.87878,-0.21292 6.62375,-35.92982 c 3.64307,-19.76141 6.88867,-37.30782 7.21245,-38.99203 L 371.21276,256 h -41.75829 -41.7583 l 0.35627,-23.06858 c 0.3199,-20.71299 0.53839,-23.68051 2.13975,-29.06122 6.24852,-20.99555 18.80985,-29.76217 45.83333,-31.98732 9.21437,-0.75871 32.75092,-0.45465 37.35885,0.48265 l 1.83732,0.37372 v -35.91391 -35.9139 l -3.0622,-0.81122 c -6.1932,-1.640652 -26.32336,-4.191498 -40.41141,-5.120831 -24.39185,-1.609044 -49.36953,0.975503 -67.81194,7.016791 -34.95328,11.44985 -56.20726,35.19193 -65.12908,72.75342 -3.60435,15.17455 -4.21319,22.00962 -4.63706,52.05742 L 193.75819,256 h -26.44847 -26.44848 v 39.19617 39.19617 h 26.53908 26.53907 v 84.81539 84.81539 l -5.51196,-1.52647 C 129.22681,486.10182 77.280749,448.42941 43.330952,397.26954 16.478636,356.80505 2.3249696,312.38436 0.66024931,263.34928 -2.2907389,176.42663 40.837049,92.814372 113.91803,43.775341 c 86.32617,-57.926852 198.34431,-57.775458 284.72952,0.384815 14.9361,10.055978 24.67254,18.144763 38.22645,31.757566 50.17172,50.389708 76.90287,117.988268 74.4408,188.248148 -2.76079,78.78458 -39.8077,149.48972 -103.18706,196.93561 -32.82931,24.57608 -73.41052,41.54421 -113.54401,47.4759 l -7.55343,1.11639 z"
+     id="path2" />
+</svg>
