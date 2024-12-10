@@ -123,18 +123,24 @@ function showMovies(data){
     data.forEach(movie => {
         const {title, poster_path, vote_average, overview} = movie;
         const movieEl =document.createElement('div');
-        movieEl.classList.add('pelicula');
+        movieEl.classList.add('peli_individual');
         movieEl.innerHTML = `
-            <img src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${title}">
-            <div class="peli_info">
-                <h3>${title}</h3>
-                <span class="${getColor(vote_average)}">${vote_average}</span>
+            <div class="peli_container">
+                <a href="./src/Pages/pelicula.html">
+                    <img class="peli_logo" src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${title}">
+                </a>
+                <div class="peli_detalle">
+                    <div class="peli_info">
+                        <p class="titulo_peli">${title}</p>
+                        <span class="${getColor(vote_average)}">${vote_average}</span>
+                    </div>
+                    <div class="descripcion">
+                        <h3>Descripción</h3>
+                        <H4>${overview}</h4>
+                    </div>
+                </div>
             </div>
-            <div class="descripcion">
-                <h3>Descripción</h3>
-                ${overview}
-            </div>
-        `
+        `;
 
         main.appendChild(movieEl);
     });
