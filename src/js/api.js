@@ -126,7 +126,7 @@ function showMovies(data){
         movieEl.classList.add('peli_individual');
         movieEl.innerHTML = `
             <div class="peli_container">
-                <a href="./src/Pages/pelicula.html">
+                <a class="peli_enlace" href="./src/Pages/pelicula.html">
                     <img class="peli_logo" src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${title}">
                 </a>
                 <div class="peli_detalle">
