@@ -33,7 +33,7 @@ function displayMovieList(movie){
         const {title, poster_path, vote_average, release_date, name, first_air_date, id} = movies;
         const bus = document.createElement('a');
         bus.classList.add('card');
-        bus.href = `${title ? `movie.html?id=${id}` : `tv.html?id=${id}`}`;
+        bus.href = `${title ? `../../src/Pages/movie.html?id=${id}` : `../../src/Pages/tv.html?id=${id}`}`;
         bus.innerHTML = `
                     <img src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="img_buscar">
                     <div class="cont">

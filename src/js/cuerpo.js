@@ -14,7 +14,7 @@ function showMoviesCuerpo(){
             movieEl.id = 'pelicula-'+id;
             movieEl.innerHTML = `
                 <div class="peli_container">
-                    <a class="peli_enlace" href="movie.html?id=${id}">
+                    <a class="peli_enlace" href="../../src/Pages/movie.html?id=${id}">
                         <img class="peli_logo" src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${title}">
                     </a>
                     <div class="peli_detalle">
@@ -45,7 +45,7 @@ function showSeriesCuerpo(){
             seriesEl.id = 'serie-'+id;
             seriesEl.innerHTML = `
                 <div class="serie_container">
-                    <a class="serie_enlace" href="tv.html?id=${id}">
+                    <a class="serie_enlace" href="../../src/Pages/tv.html?id=${id}">
                         <img class="serie_logo" src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${name}">
                     </a>
                     <div class="serie_detalle">
