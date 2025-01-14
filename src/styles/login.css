@@ -27,6 +27,26 @@ body{
     border-radius: 10px;
 }
 
+.register_box{
+    position: relative;
+    width: 870px;
+    height: auto;
+    padding: 10px 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.recover_box{
+    position: relative;
+    width: 470px;
+    height: auto;
+    padding: 10px 30px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
 .login_header{
     display: flex;
     flex-direction: column;
@@ -45,9 +65,29 @@ body{
     color: #555;
 }
 
+.form_class{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+}
+
+.input_box:last-child { 
+    grid-column: span 2;
+}
+
 .input_box{
     position: relative;
     width: 100%;
+    display: flex;
+    align-items: start;
+}
+
+.select_input{
+    height: 50px;
+}
+    
+.input_field { 
+    flex: 1;
 }
 
 .input_box label{

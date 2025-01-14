@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="../styles/login.css">
 </head>
 <body>
-    <div class="login_box">
+    <div class="login_box" id="login_box" style="display: none;">
         <div class="login_header">
             <header>Bienvenido!!</header>
             <p>Ingresa tus datos para iniciar sesión</p>
@@ -46,6 +46,76 @@
         </div>
         <div class="sign_up">
             <p>¿No tienes una cuenta?<a href="#"> Registrate</a></p>
+        </div>
+    </div>
+    <div class="register_box" id="register_box" style="display: none;">
+        <div class="login_header">
+            <header>Bienvenido!!</header>
+            <p>Ingresa tus datos para registrarte</p>
+        </div>
+        <form class="form_class" action="">
+            <div class="input_box">
+                <input type="text" class="input_field" id="email" required>
+                <label for="email">Nombre</label>
+            </div>
+            <div class="input_box">
+                <select class="select_input" name="" id="">
+                    <option value="CI">CI</option>
+                    <option value="CI">CIE</option>
+                </select>
+                <input type="number" class="input_field" id="email" required>
+                <label for="email" style="margin-left: 40px;">Nro de identificación</label>
+            </div>
+            <div class="input_box">
+                <input type="number" class="input_field" id="email" required>
+                <label for="email">Teléfono</label>
+            </div>
+            <div class="input_box">
+                <input type="email" class="input_field" id="email" required>
+                <label for="email">Correo electronico</label>
+            </div>
+            <div class="input_box">
+                <input type="password" class="input_field" id="email" required>
+                <label for="email">Contraseña</label>
+            </div>
+            <div class="input_box">
+                <input type="password" class="input_field" id="password" required>
+                <label for="password">Confirmar contraseña</label>
+            </div>
+            <div class="input_box">
+                <button class="input_submit">Registrarse</button>
+            </div>
+        </form>
+        <div class="middle_text">
+            <hr>
+            <p class="o_text">O</p>
+        </div>
+        <div class="social_sign_in">
+            <button class="input_google">
+                <img src="../img/logo_google.png" alt="IMG_GOOGLE" width="25px">
+                <p>Registrarse con Google</p>
+            </button>
+        </div>
+        <div class="sign_up">
+            <p>¿Ya tienes una cuenta?<a href="#"> Inicia sesión</a></p>
+        </div>
+    </div>
+    <div class="recover_box" id="recover_box" >
+        <div class="login_header">
+            <header>Bienvenido!!</header>
+            <p>Ingresa tu correo para recuperar tu contraseña</p>
+        </div>
+        <form action="">
+            <div class="input_box">
+                <input type="email" class="input_field" id="password" required>
+                <label for="password">Correo electronico</label>
+            </div>
+            <div class="input_box">
+                <button class="input_submit">Enviar</button>
+            </div>
+        </form>
+        <div class="sign_up">
+            <p>¿Desea iniciar sesión?<a href="#"> Regresar</a></p>
         </div>
     </div>
     
