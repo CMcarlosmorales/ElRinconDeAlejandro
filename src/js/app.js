@@ -4,7 +4,7 @@ const inicioBtn = document.getElementById('inicio_btn');
 
 //BOTONES HEADER
 inicioBtn.addEventListener('click', (e) => {
-    window.location.href = `../../index.html`;
+    window.location.href = `../../index.php`;
 })
 
 seriesBtn.addEventListener('click', (w) => {

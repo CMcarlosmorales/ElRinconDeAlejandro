@@ -3,6 +3,8 @@ const BACKPIC_URL = 'https://image.tmdb.org/t/p/original';
 const cardSerie = document.getElementById('idcards_serie');
 const cardProductS = document.getElementById('idcards_production_serie');
 const cardProductionS = document.getElementById('idcards_productionEmp_serie');
+const urlParams = new URLSearchParams(window.location.search);
+const tvId = urlParams.get('id');
 
 const genero = [
     {
@@ -123,7 +125,7 @@ showProductionS();
 showProductionEmpS();
 
 function showBackgroundSerie(){
-    fetch(`https://api.themoviedb.org/3/tv/112470?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(databgserie => {
+    fetch(`https://api.themoviedb.org/3/tv/${tvId}?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(databgserie => {
 
         const bgdataserie = databgserie;
 
@@ -158,7 +160,7 @@ function showBackgroundSerie(){
 }
 
 function showCastS(){
-    fetch(`https://api.themoviedb.org/3/tv/112470/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(datacastS => {
+    fetch(`https://api.themoviedb.org/3/tv/${tvId}/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(datacastS => {
         cardSerie.innerHTML = '';
         datacastS.cast.forEach(castSerie => {
             const {original_name, profile_path, character, id} = castSerie;
@@ -185,7 +187,7 @@ function showCastS(){
 }
 
 function showProductionS(){
-    fetch(`https://api.themoviedb.org/3/tv/112470/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproductS => {
+    fetch(`https://api.themoviedb.org/3/tv/${tvId}/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproductS => {
         cardProductS.innerHTML = '';
         dataproductS.crew.forEach(productSeries => {
             const {original_name, profile_path, known_for_department, id} = productSeries;
@@ -213,7 +215,7 @@ function showProductionS(){
 }
 
 function showProductionEmpS(){
-    fetch(`https://api.themoviedb.org/3/tv/112470?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproductionS => {
+    fetch(`https://api.themoviedb.org/3/tv/${tvId}?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproductionS => {
         cardProductionS.innerHTML = '';
         dataproductionS.production_companies.forEach(productionMovie => {
             const {name, logo_path, origin_country, id} = productionMovie;

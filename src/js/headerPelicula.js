@@ -3,6 +3,8 @@ const BACKPIC_URL = 'https://image.tmdb.org/t/p/original';
 const cardPelicula = document.getElementById('idcards_pelicula');
 const cardProduct = document.getElementById('idcards_production');
 const cardProduction = document.getElementById('idcards_productionEmp');
+const urlParams = new URLSearchParams(window.location.search);
+const movieId = urlParams.get('id');
 
 const genero = [
     {
@@ -123,7 +125,7 @@ showProduction();
 showProductionEmp();
 
 function showBackgroundPelicula(){
-    fetch(`https://api.themoviedb.org/3/movie/676?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(databgpelicula => {
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(databgpelicula => {
 
         const bgdatapelicula = databgpelicula;
 
@@ -156,7 +158,7 @@ function showBackgroundPelicula(){
 }
 
 function showCast(){
-    fetch(`https://api.themoviedb.org/3/movie/676/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(datacast => {
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(datacast => {
         cardPelicula.innerHTML = '';
         datacast.cast.forEach(castMovie => {
             const {original_name, profile_path, character, id} = castMovie;
@@ -183,7 +185,7 @@ function showCast(){
 }
 
 function showProduction(){
-    fetch(`https://api.themoviedb.org/3/movie/676/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproduct => {
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproduct => {
         cardProduct.innerHTML = '';
         dataproduct.crew.forEach(productMovie => {
             const {original_name, profile_path, known_for_department, id} = productMovie;
@@ -211,7 +213,7 @@ function showProduction(){
 }
 
 function showProductionEmp(){
-    fetch(`https://api.themoviedb.org/3/movie/676?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproduction => {
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?language=es-ES&api_key=65df7f7394c219558c55c1f30d4b6f45`).then(res => res.json()).then(dataproduction => {
         cardProduction.innerHTML = '';
         dataproduction.production_companies.forEach(productionMovie => {
             const {name, logo_path, origin_country, id} = productionMovie;

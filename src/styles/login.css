@@ -71,6 +71,10 @@ body{
     grid-gap: 10px;
 }
 
+.input_box:first-child { 
+    grid-column: span 2;
+}
+
 .input_box:last-child { 
     grid-column: span 2;
 }

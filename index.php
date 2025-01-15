@@ -1,3 +1,6 @@
+<?php 
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +14,7 @@
     <header>
         <nav>
             <div class="logo_ul">
-                <img src="./src/img/logo-trans.png" alt="logo-img">
+                <img src="./src/img/logo-trans.png" alt="logo-img" id="img_profile">
                 <ul>
                     <li>
                         <a href="#" id="inicio_btn">Inicio</a>
@@ -25,14 +28,22 @@
                     <li>
                         <a href="#" id="series_btn">Series</a>
                     </li>
+                    <?php if(empty($_SESSION['nombre'])) { ?>
                     <li>
                         <a href="./src/Pages/login.html" class="ingr">Ingresar</a>
                     </li>
+                    <?php } ?>
                 </ul>
             </div>
             <div class="buscar_user">
                 <input type="text" placeholder="Buscar..." id="buscar_input" onkeyup="findMovies()";>
+                <?php if(empty($_SESSION['imagen'])) { ?>
                 <img src="./src/img/user.png" alt="user-img">
+                <?php }else{ ?>
+                <a href="#" style="height: 20px;">
+                    <img src="<?php echo $_SESSION['imagen']; ?>" alt="user-img">
+                </a>
+                <?php } ?>
                 <div class="buscar">
                     
                 </div>
