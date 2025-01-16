@@ -2,10 +2,9 @@
 
 .container{
     display: flex;
-    margin: 50px 10px;
 }
 
-.container::before{
+#base::before{
     left: 0;
     top: 0;
     content: '';
@@ -21,7 +20,8 @@
 .profile{
     flex: 1;
     margin-right: 10px;
-    background-color: #fff;
+    background-color: #343535;
+    border: 1px solid #ddd;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px ;
     border-radius: 5px;
     height: max-content;
@@ -45,11 +45,13 @@
 
 .profile-title{
     font-family: 'Poppins', sans-serif;
+    color: #fdb94a;
     font-size: 20px;
 }
 
 .profile-email{
     font-family: 'Poppins', sans-serif;
+    color: #fdb94a;
     font-size: 14px;
 }
 
@@ -60,7 +62,7 @@
 .menu-link{
     display: block;
     text-decoration: none;
-    color: #768499;
+    color: #fff;
     font-family: 'Poppins', sans-serif;
     padding: 10px;
     margin: 10px;
@@ -73,7 +75,7 @@
 
 .menu-link.focus{
     color: #fff;
-    background-color: #536dfe;
+    background-color: #fdb94a;
 }
 
 .menu-link:hover{
@@ -82,16 +84,18 @@
 }
 
 .menu-link.focus:hover{
-    background-color: #536dfe;
+    background-color: #fdb94a;
 }
 
 .account{
     flex: 2;
     margin-left: 10px;
-    background-color: #fff;
+    background-color: #343535;
+    border: 1px solid #ddd;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     border-radius: 5px;
     height: max-content;
+    width: 100%;
 }
 
 .account-header{
@@ -105,7 +109,7 @@
 .account-title{
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
-    color: #1e293b;
+    color: #fdb94a;
     font-weight: 500;
     margin-left: 10px;
 }
@@ -148,6 +152,23 @@
 
 .btn-save:hover{
     background-color: #f1f5f9;
+}
+
+.btnConfig{
+    font-family: 'poppins', 'sans-serif';
+    font-size: 15px;
+    color: #fdb94a;
+    background: transparent;
+    box-shadow: inset 0 0 0 2px #fdb94a;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.btnConfig:hover{
+    opacity: 0.9;
+    color: #fff;
+    background-color: #fdb94a;
 }
 
 .account-edit{
