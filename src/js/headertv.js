@@ -141,12 +141,12 @@ function showBackgroundSerie(){
         document.getElementById('overview').innerText = `${bgdataserie.overview}`;
         document.getElementById('genre').innerHTML = `<strong>Género</strong>: ${mergedGenre}`;
         document.getElementById('le').innerHTML = `<strong>Último episodio</strong>: ${bgdataserie.last_episode_to_air.air_date}`;
-        document.getElementById('ne').innerHTML = `<strong>Próximo episodio</strong>: ${bgdataserie.next_episode_to_air.air_date}`;
+        document.getElementById('ne').innerHTML = `<strong>Próximo episodio</strong>: ${bgdataserie.next_episode_to_air ? bgdataserie.next_episode_to_air.air_date : 'Finalizado'}`;
         document.getElementById('release_date').innerHTML = `<strong>Estreno al aire</strong>: ${bgdataserie.first_air_date}`;
         document.getElementById('rating').innerHTML = `<span>TMDB</span><i class="bi bi-star-fill"></i> ${bgdataserie.vote_average}`;
         document.getElementById('language').innerHTML = `<b>Eslogan</b> ${bgdataserie.tagline}`;
             
-        const imagenInicial = `url(${bgdataserie.backdrop_path ? BACKPIC_URL+bgdataserie.backdrop_path : "https://via.placeholder.com/1800x1080"}) no-repeat center center/cover`;
+        const imagenInicial = `url(${bgdataserie.backdrop_path ? BACKPIC_URL+bgdataserie.backdrop_path : "../img/bg.jpg"}) no-repeat center center/cover`;
         const estilo = document.styleSheets[0];
             
         for (let i = 0; i < estilo.cssRules.length; i++) {

@@ -144,7 +144,7 @@ function showBackgroundPelicula(){
         document.getElementById('rating').innerHTML = `<span>TMDB</span><i class="bi bi-star-fill"></i> ${bgdatapelicula.vote_average}`;
         document.getElementById('language').innerHTML = `<b>Eslogan</b> ${bgdatapelicula.tagline}`;
             
-        const imagenInicial = `url(${bgdatapelicula.backdrop_path ? BACKPIC_URL+bgdatapelicula.backdrop_path : "https://via.placeholder.com/1800x1080"}) no-repeat center center/cover`;
+        const imagenInicial = `url(${bgdatapelicula.backdrop_path ? BACKPIC_URL+bgdatapelicula.backdrop_path : "../img/bg.jpg"}) no-repeat center center/cover`;
         const estilo = document.styleSheets[0];
             
         for (let i = 0; i < estilo.cssRules.length; i++) {
