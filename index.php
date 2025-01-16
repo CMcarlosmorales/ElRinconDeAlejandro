@@ -40,7 +40,7 @@ session_start();
                 <?php if(empty($_SESSION['imagen'])) { ?>
                 <img src="./src/img/user.png" alt="user-img">
                 <?php }else{ ?>
-                <a href="./src/Pages/profile.html" style="height: 20px;">
+                <a href="./src/Pages/profile.php" style="height: 20px;">
                     <img src="<?php echo $_SESSION['imagen']; ?>" alt="user-img">
                 </a>
                 <?php } ?>
