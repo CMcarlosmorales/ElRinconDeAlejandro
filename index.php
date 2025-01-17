@@ -30,7 +30,7 @@ session_start();
                     </li>
                     <?php if(empty($_SESSION['nombre'])) { ?>
                     <li>
-                        <a href="./src/Pages/login.html" class="ingr">Ingresar</a>
+                        <a href="./src/Pages/login.php" class="ingr">Ingresar</a>
                     </li>
                     <?php } ?>
                 </ul>

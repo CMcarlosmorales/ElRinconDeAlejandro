@@ -1,22 +1,22 @@
-document.getElementById("registerLogin").addEventListener("click", function(e) {
+document.getElementById("registerLogin").addEventListener("click", function() {
     document.getElementById("login_box").style.display = "none";
     document.getElementById("recover_box").style.display = "none";
     document.getElementById("register_box").style.display = "block";
 })
 
-document.getElementById("recoverLogin").addEventListener("click", function(e) {
+document.getElementById("recoverLogin").addEventListener("click", function() {
     document.getElementById("login_box").style.display = "none";
     document.getElementById("recover_box").style.display = "block";
     document.getElementById("register_box").style.display = "none";
 })
 
-document.getElementById("loginRegister").addEventListener("click", function(e) {
+document.getElementById("loginRegister").addEventListener("click", function() {
     document.getElementById("login_box").style.display = "block";
     document.getElementById("recover_box").style.display = "none";
     document.getElementById("register_box").style.display = "none";
 })
 
-document.getElementById("loginRecover").addEventListener("click", function(e) {
+document.getElementById("loginRecover").addEventListener("click", function() {
     document.getElementById("login_box").style.display = "block";
     document.getElementById("recover_box").style.display = "none";
     document.getElementById("register_box").style.display = "none";
@@ -30,6 +30,19 @@ document.getElementById("loginForm").addEventListener("submit", function(event) 
 document.getElementById("registerForm").addEventListener("submit", function(event) {
     event.preventDefault();
     registrar();
+})
+
+$("#MostrarLogin").click(function () {
+    let passwordInput = $('#passwordLogin'); 
+    let tipo = passwordInput.attr('type');
+    let icono = $(this).find('i');
+    if (tipo === 'password') { 
+        passwordInput.attr('type', 'text');
+        icono.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    } else { 
+        passwordInput.attr('type', 'password'); 
+        icono.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill'); 
+    }
 })
 
 function ingresar(){

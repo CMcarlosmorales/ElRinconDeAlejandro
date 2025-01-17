@@ -1,3 +1,11 @@
+<?php 
+//activamos almacenamiento en el buffer
+ob_start();
+session_start();
+if (isset($_SESSION['nombre'])) {
+  header("Location: ../../index.php");
+}else{
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -29,7 +37,7 @@
                     <input type="password" class="form-control" placeholder="Contraseña" aria-label="Recipient's username"
                         aria-describedby="button-addon2" id="passwordLogin">
                     <div class="input-group-append">
-                        <button class="btn bg-light btn-outline-secondary" type="button" id="button-addon2"><i
+                        <button class="btn bg-light btn-outline-secondary" type="button" id="MostrarLogin"><i
                                 class="bi bi-eye-fill"></i></button>
                     </div>
                 </div>
@@ -136,3 +144,7 @@
 </body>
 
 </html>
+<?php
+}
+ob_end_flush();
+?>
