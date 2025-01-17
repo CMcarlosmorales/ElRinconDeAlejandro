@@ -15,6 +15,45 @@ document.getElementById("miClaveBtn").addEventListener("click", function () {
     document.getElementById("miClaveBtn").classList.add("focus");
 })
 
+$("#MostrarClaveUno").click(function () {
+    let passwordInput = $('#claveVieja'); 
+    let tipo = passwordInput.attr('type');
+    let icono = $(this).find('i');
+    if (tipo === 'password') { 
+        passwordInput.attr('type', 'text');
+        icono.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    } else { 
+        passwordInput.attr('type', 'password'); 
+        icono.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill'); 
+    }
+})
+
+$("#MostrarClaveDos").click(function () {
+    let passwordInput = $('#claveNueva'); 
+    let tipo = passwordInput.attr('type');
+    let icono = $(this).find('i');
+    if (tipo === 'password') { 
+        passwordInput.attr('type', 'text');
+        icono.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    } else { 
+        passwordInput.attr('type', 'password'); 
+        icono.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill'); 
+    }
+})
+
+$("#MostrarClaveTres").click(function () {
+    let passwordInput = $('#claveNuevaConf'); 
+    let tipo = passwordInput.attr('type');
+    let icono = $(this).find('i');
+    if (tipo === 'password') { 
+        passwordInput.attr('type', 'text');
+        icono.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    } else { 
+        passwordInput.attr('type', 'password'); 
+        icono.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill'); 
+    }
+})
+
 document.getElementById("btnClaveGuardar").addEventListener("click", (e) => {
     e.preventDefault();
     ActualizarClave();

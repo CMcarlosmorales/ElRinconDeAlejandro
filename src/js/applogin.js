@@ -45,6 +45,32 @@ $("#MostrarLogin").click(function () {
     }
 })
 
+$("#MostrarRegister").click(function () {
+    let passwordInput = $('#passwordRegister'); 
+    let tipo = passwordInput.attr('type');
+    let icono = $(this).find('i');
+    if (tipo === 'password') { 
+        passwordInput.attr('type', 'text');
+        icono.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    } else { 
+        passwordInput.attr('type', 'password'); 
+        icono.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill'); 
+    }
+})
+
+$("#MostrarRegisterCon").click(function () {
+    let passwordInput = $('#conPasswordRegister'); 
+    let tipo = passwordInput.attr('type');
+    let icono = $(this).find('i');
+    if (tipo === 'password') { 
+        passwordInput.attr('type', 'text');
+        icono.removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    } else { 
+        passwordInput.attr('type', 'password'); 
+        icono.removeClass('bi-eye-slash-fill').addClass('bi-eye-fill'); 
+    }
+})
+
 function ingresar(){
     var logina = document.querySelector("#emailLogin").value;
 	var clavea = document.querySelector("#passwordLogin").value;
