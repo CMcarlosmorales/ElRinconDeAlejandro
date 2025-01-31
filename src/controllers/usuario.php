@@ -25,7 +25,6 @@ $claveNuevaConf = isset($_POST['claveNuevaConf']) ? $_POST['claveNuevaConf']:"";
 
         case 'insertar':
             if(isset($_FILES['fileRegister'])){
-                var_dump($_FILES);
                 $ext=explode(".", $_FILES["fileRegister"]["name"]);
                 if ($_FILES['fileRegister']['type']=="image/jpg" || $_FILES['fileRegister']['type']=="image/jpeg" || $_FILES['fileRegister']['type']=="image/png") {
         
@@ -54,22 +53,20 @@ $claveNuevaConf = isset($_POST['claveNuevaConf']) ? $_POST['claveNuevaConf']:"";
                     curl_close($curl);
         
                     $response_data = json_decode($sreResponse, true);
-                    echo $response_data['data']['link'];
                     $imagen = $response_data['data']['link'];
                 }
             }
 
             $clavehash=hash("SHA256", $clave);
             $rspta=$usuario->insertar($nombre,$tipo_documento,$nro_documento,$telefono,$email,$clavehash,$imagen);
-	        echo $rspta ? "Usuario registrado correctamente" : "No se pudo registrar todos los datos del usuario";
+	        echo json_encode($rspta ? array("tipo" => "success", "msg" => "Usuario registrado correctamente") : array("tipo" => "failure", "msg" => "No se pudo registrar todos los datos del usuario"));
             break;
         case 'verificar':
-            $cuenta=$_POST['logina'];
-	        $password=$_POST['clavea'];
+            $cuenta=$_POST['emailLogin'];
+	        $password=$_POST['passwordLogin'];
             $passwordhash = hash("SHA256", $password);             
             $rspta=$usuario->verificar($cuenta,$passwordhash);
             $fetch = $rspta->fetch_object();
-            echo $rspta->num_rows > 0 ? true : false;  
             if (isset($fetch)) {
                 # Declaramos la variables de sesion
                 $_SESSION['id'] = $fetch->id;
@@ -80,12 +77,12 @@ $claveNuevaConf = isset($_POST['claveNuevaConf']) ? $_POST['claveNuevaConf']:"";
                 $_SESSION['correo'] = $fetch->correo;
                 $_SESSION['imagen'] = $fetch->imagen;
             }
+            echo json_encode($rspta->num_rows > 0 ? array("tipo" => "success", "msg" => "Inicio de sesión exitoso") : array("tipo" => "failure", "msg" => "Error al iniciar sesión"));
             break;
         case 'actualizar':         
             $rspta=$usuario->actualizar($id,$nombreUpgrade,$tipoUpgrade,$nroUpgrade,$telefonoUpgrade,$correoUpgrade);
             $rsptados=$usuario->mostrar($id);
-            $fetch = $rsptados->fetch_object();
-            echo $rspta->num_rows > 0 ? true : false;  
+            $fetch = $rsptados->fetch_object();  
             if (isset($fetch)) {
                 # Declaramos la variables de sesion
                 $_SESSION['id'] = $fetch->id;
@@ -96,6 +93,7 @@ $claveNuevaConf = isset($_POST['claveNuevaConf']) ? $_POST['claveNuevaConf']:"";
                 $_SESSION['correo'] = $fetch->correo;
                 $_SESSION['imagen'] = $fetch->imagen;
             }
+            echo json_encode($rspta ? array("tipo" => "success", "msg" => "Actualización exitosa") : array("tipo" => "failure", "msg" => "Error al intentar actualizar datos"));
             break;
         case 'actualizarClave':
             $claveVerifConf = hash("SHA256", $claveVieja);
@@ -104,15 +102,14 @@ $claveNuevaConf = isset($_POST['claveNuevaConf']) ? $_POST['claveNuevaConf']:"";
                 $fetchConf = $rsptaConf->fetch_object();
                 $claveComparar = $fetchConf->clave;
                 $claveNuevaConf = hash("SHA256", $claveNueva);
-                echo $claveComparar;
                 if($claveNuevaConf != $claveComparar){
                     $rspta=$usuario->actualizarClave($id,$claveNuevaConf);
-                    echo $rspta ? true : false;
+                    echo json_encode($rspta ? array("tipo" => "success", "msg" => "Clave de ingreso actualizada con exito") : array("tipo" => "failure", "msg" => "Error al intentar actualizar la clave de ingreso"));
                 }else{
-                    echo "La contraseña nueva no puede ser igual a la anterior";
+                    echo json_encode(array("msg" => "La clave de ingreso nueva no puede ser igual a la anterior"));
                 }
             }else{
-                echo "Contraseña actual incorrecta";
+                echo json_encode(array("msg" => "Clave de ingreso actual incorrecta"));
             }          
             break;
         case 'mostrar':          
@@ -135,15 +132,14 @@ $claveNuevaConf = isset($_POST['claveNuevaConf']) ? $_POST['claveNuevaConf']:"";
             break;
         case 'eliminar':
             $rspta=$usuario->eliminar($id);
-            echo $rspta ? "Datos eliminados correctamente" : "No se pudo eliminar los datos";
+            echo json_encode($rspta ? array("tipo" => "success", "msg" => "Datos eliminados correctamente") : array("tipo" => "failure", "msg" => "No se pudo eliminar los datos"));
             session_unset();
             session_destroy();
-            header("Location: ../../index.php");
             break;
         case 'salir':
+            echo json_encode(array("msg" => "Cerrando sesión..."));
             session_unset();
             session_destroy();
-            header("Location: ../../index.php");
             break;
     }
 ?>

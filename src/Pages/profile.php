@@ -15,6 +15,7 @@ if (!isset($_SESSION['nombre'])) {
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
         <link rel="stylesheet" href="../librerias/bootstrap-4.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="../styles/profile.css">
+        <link rel="stylesheet" href="../librerias/notiflix/notiflix-3.2.8.min.css">
         <title>El Rincón de Alejandro</title>
     </head>
 
@@ -32,8 +33,8 @@ if (!isset($_SESSION['nombre'])) {
                     <a href="#" class="menu-link focus" id="miCuentaBtn"><i class="bi bi-person-fill menu-icon mr-3"></i>Cuenta</a>
                     <a href="#" class="menu-link" id="miClaveBtn"><i class="bi bi-person-fill-gear menu-icon mr-3"></i>Cambiar contraseña</a>
                     <a href="#" class="menu-link" id="miComentarioBtn"><i class="bi bi-person-lines-fill menu-icon mr-3"></i>Comentarios realizados</a>
-                    <a href="../controllers/usuario.php?op=eliminar" class="menu-link" id="eliminarCuentaBtn"><i class="bi bi-person-x-fill menu-icon mr-3"></i>Eliminar cuenta</a>
-                    <a href="../controllers/usuario.php?op=salir" class="menu-link" id="cerrarSesionBtn"><i class="bi bi-person-fill-down menu-icon mr-3"></i>Cerrar sesión</a>
+                    <a href="#" class="menu-link" id="eliminarCuentaBtn"><i class="bi bi-person-x-fill menu-icon mr-3"></i>Eliminar cuenta</a>
+                    <a href="#" class="menu-link" id="cerrarSesionBtn"><i class="bi bi-person-fill-down menu-icon mr-3"></i>Cerrar sesión</a>
                 </div>
             </div>
             <form class="account" id="miCuenta" style="display: block;">
@@ -41,7 +42,7 @@ if (!isset($_SESSION['nombre'])) {
                     <h1 class="account-title mt-1">Mi cuenta</h1>
                     <div class="btn-container">
                         <button class="btn btn-transparent btn-outline-secondary btnConfig text-white">Cancelar</button>
-                        <button class="btn btn-transparent btn-outline-secondary btnConfig text-white" onclick="Actualizar()">Guardar</button>
+                        <button class="btn btn-transparent btn-outline-secondary btnConfig text-white" id="actualizarBtn">Guardar</button>
                     </div>
                 </div>
                 <div class="account-edit">
@@ -142,6 +143,7 @@ if (!isset($_SESSION['nombre'])) {
         </div>
         <script src="../librerias/jquery/jquery-3.2.1.min.js"></script>
         <script src="../librerias/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+        <script src="../librerias/notiflix/notiflix-3.2.8.min.js"></script>
         <script src="../js/appProfile.js"></script>
     </body>
 

@@ -1,8 +1,9 @@
-<?php 
+<?php
 session_start();
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@ session_start();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>El Rincón de Alejandro</title>
 </head>
+
 <body>
     <header>
         <nav>
@@ -28,24 +30,28 @@ session_start();
                     <li>
                         <a href="#" id="series_btn">Series</a>
                     </li>
-                    <?php if(empty($_SESSION['nombre'])) { ?>
-                    <li>
-                        <a href="./src/Pages/login.php" class="ingr">Ingresar</a>
-                    </li>
+                    <?php if (empty($_SESSION['nombre'])) { ?>
+                        <li>
+                            <a href="./src/Pages/login.php" class="ingr">Ingresar</a>
+                        </li>
+                    <?php } else { ?>
+                        <li>
+                            <a href="./src/Pages/profile.php" class="ingr">Perfil</a>
+                        </li>
                     <?php } ?>
                 </ul>
             </div>
             <div class="buscar_user">
-                <input type="text" placeholder="Buscar..." id="buscar_input" onkeyup="findMovies()";>
-                <?php if(empty($_SESSION['imagen'])) { ?>
-                <img src="./src/img/user.png" alt="user-img">
-                <?php }else{ ?>
-                <a href="./src/Pages/profile.php" style="height: 20px;">
-                    <img src="<?php echo $_SESSION['imagen']; ?>" alt="user-img">
-                </a>
+                <input type="text" placeholder="Buscar..." id="buscar_input" onkeyup="findMovies()" ;>
+                <?php if (empty($_SESSION['imagen'])) { ?>
+                    <img src="./src/img/user.png" alt="user-img">
+                <?php } else { ?>
+                    <a href="./src/Pages/profile.php" style="height: 20px;">
+                        <img src="<?php echo $_SESSION['imagen']; ?>" alt="user-img">
+                    </a>
                 <?php } ?>
                 <div class="buscar">
-                    
+
                 </div>
             </div>
         </nav>
@@ -63,7 +69,7 @@ session_start();
             <i class="bi bi-chevron-left"></i>
             <i class="bi bi-chevron-right"></i>
             <div id="idcards" class="cards">
-                            
+
             </div>
         </section>
     </header>
@@ -129,4 +135,5 @@ session_start();
 <script src="./src/js/buscador.js"></script>
 <script type="module" src="./src/js/header.js"></script>
 <script src="./src/js/cuerpo.js"></script>
+
 </html>

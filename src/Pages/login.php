@@ -16,6 +16,7 @@ if (isset($_SESSION['nombre'])) {
         <link rel="stylesheet" href="../styles/login.css">
         <link rel="stylesheet" href="../librerias/bootstrap-4.4.1/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="../librerias/notiflix/notiflix-3.2.8.min.css">
     </head>
 
     <body>
@@ -28,13 +29,13 @@ if (isset($_SESSION['nombre'])) {
                 <form id="loginForm">
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" placeholder="Correo electronico"
-                            aria-label="Recipient's username" aria-describedby="basic-addon2" id="emailLogin">
+                            aria-label="Recipient's username" aria-describedby="basic-addon2" name="emailLogin" id="emailLogin">
                         <div class="input-group-append">
                             <span class="input-group-text bg-light text-secondary" id="basic-addon2">@ejemplo.com</span>
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input type="password" class="form-control" placeholder="Contraseña" aria-label="Recipient's username"
+                        <input type="password" class="form-control" placeholder="Contraseña" name="passwordLogin" aria-label="Recipient's username"
                             aria-describedby="button-addon2" id="passwordLogin">
                         <div class="input-group-append">
                             <button class="btn bg-light btn-outline-secondary" type="button" id="MostrarLogin"><i
@@ -92,7 +93,7 @@ if (isset($_SESSION['nombre'])) {
                     <div class="input-group mb-3">
                         <div class="custom-file">
                             <input type="file" class="custom-file-input" aria-describedby="inputGroupFileAddon01"
-                                name="fileRegister" id="fileRegister" required>
+                                name="fileRegister" id="fileRegister" placeholder="Elige tu foto de usuario" required>
                             <label class="custom-file-label" for="fileRegister">Elige tu foto de usuario</label>
                         </div>
                     </div>
@@ -147,8 +148,10 @@ if (isset($_SESSION['nombre'])) {
 
 
         <script src="../librerias/jquery/jquery-3.2.1.min.js"></script>
-        <script src="../js/applogin.js"></script>
         <script src="../librerias/bootstrap-4.4.1/js/bootstrap.min.js"></script>
+        <script src="../librerias/notiflix/notiflix-3.2.8.min.js"></script>
+        <script src="../js/applogin.js"></script>
+        
     </body>
 
     </html>
