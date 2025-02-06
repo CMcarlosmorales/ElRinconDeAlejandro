@@ -1,5 +1,5 @@
-const BUSCAR_URL = 'https://api.themoviedb.org/3/search/movie?language=es-MX&api_key=65df7f7394c219558c55c1f30d4b6f45&query=';
-const TV_URL = 'https://api.themoviedb.org/3/search/tv?language=es-MX&api_key=65df7f7394c219558c55c1f30d4b6f45&query=';
+const BUSCAR_URL = 'https://api.themoviedb.org/3/search/movie?language=es-MX&api_key=65df7f7394c219558c55c1f30d4b6f45&include_adult=true&query=';
+const TV_URL = 'https://api.themoviedb.org/3/search/tv?language=es-MX&api_key=65df7f7394c219558c55c1f30d4b6f45&include_adult=true&query=';
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
 
 const filtroBuscar = document.getElementById('buscar_input');
