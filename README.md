@@ -1,4 +1,4 @@
-Correciones:
+Correciones Interzas de Usuario:
 
 1-Diseño Visual (2.25)
 *Se debe mejorar la tipografía usada, ya que no todos los textos son legibles para los usuarios.
@@ -18,3 +18,15 @@ Correciones:
 
 5-Compatibilidad (0.75)
 *No se adapta a diferentes tipos de pantalla.
+
+Correciones Codigo PHP:
+1-Conocimiento del Lenguaje PHP(3)
+
+2-Implementación del CRUD
+*Falta agregar a los archivos el codigo de la BD.
+
+3-Funcionalidad del CRUD
+
+4-Entrega del Trabajo (3)
+
+5-Documento (2.25)
