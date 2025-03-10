@@ -1,199 +1,214 @@
-//TMDB
-
 const API_KEY = 'api_key=65df7f7394c219558c55c1f30d4b6f45';
 const BASE_URL = 'https://api.themoviedb.org/3';
-const API_URL = BASE_URL + '/discover/movie?sort_by=popularity.desc&' + API_KEY;
+const API_URL = `${BASE_URL}/discover/movie?sort_by=popularity.desc&${API_KEY}`;
 const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-const BUSCAR_URL = BASE_URL + '/search/movie?' + API_KEY
+const BUSCAR_URL = `${BASE_URL}/search/movie?${API_KEY}`;
 
-const genero = [
-    {
-        "id": 28,
-        "name": "Action"
-    },
-    {
-        "id": 12,
-        "name": "Adventure"
-    },
-    {
-        "id": 16,
-        "name": "Animation"
-    },
-    {
-        "id": 35,
-        "name": "Comedy"
-    },
-    {
-        "id": 80,
-        "name": "Crime"
-    },
-    {
-        "id": 99,
-        "name": "Documentary"
-    },
-    {
-        "id": 18,
-        "name": "Drama"
-    },
-    {
-        "id": 10751,
-        "name": "Family"
-    },
-    {
-        "id": 14,
-        "name": "Fantasy"
-    },
-    {
-        "id": 36,
-        "name": "History"
-    },
-    {
-        "id": 27,
-        "name": "Horror"
-    },
-    {
-        "id": 10402,
-        "name": "Music"
-    },
-    {
-        "id": 9648,
-        "name": "Mystery"
-    },
-    {
-        "id": 10749,
-        "name": "Romance"
-    },
-    {
-        "id": 878,
-        "name": "Science Fiction"
-    },
-    {
-        "id": 10770,
-        "name": "TV Movie"
-    },
-    {
-        "id": 53,
-        "name": "Thriller"
-    },
-    {
-        "id": 10752,
-        "name": "War"
-    },
-    {
-        "id": 37,
-        "name": "Western"
+const generos = [
+    { id: 28, name: 'Acción' },
+    { id: 12, name: 'Aventura' },
+    { id: 16, name: 'Animación' },
+    { id: 35, name: 'Comedia' },
+    { id: 80, name: 'Crimen' },
+    { id: 99, name: 'Documental' },
+    { id: 18, name: 'Drama' },
+    { id: 10751, name: 'Familia' },
+    { id: 14, name: 'Fantasía' },
+    { id: 36, name: 'Historia' },
+    { id: 27, name: 'Terror' },
+    { id: 10402, name: 'Música' },
+    { id: 9648, name: 'Misterio' },
+    { id: 10749, name: 'Romance' },
+    { id: 878, name: 'Ciencia ficción' },
+    { id: 10770, name: 'TV Movie' },
+    { id: 53, name: 'Suspenso' },
+    { id: 10752, name: 'Bélica' },
+    { id: 37, name: 'Western' }
+];
+
+let buscarLista = document.getElementById('buscar_lista');
+
+window.getMovies = async (url) => {
+    try {
+        const main = document.getElementById('main');
+        const response = await fetch(url);
+        const data = await response.json();
+
+        showMovies(data.results, main);
+        if (buscarLista) buscarLista.classList.add('ocultar_buscar');
+    } catch (error) {
+        showErrorMessage(error.message);
     }
-]
+};
 
-const main = document.getElementById('main');
-const form = document.getElementById('form');
-const buscar = document.getElementById('buscar');
-const buscarLista = document.getElementById('buscar_lista');
+window.showMovies = (movies, container) => {
+    container.innerHTML = movies.map(movie => `
+        <div class="movie-card" data-movie-id="${movie.id}">
+            <div class="movie-image-container">
+                <img src="${movie.poster_path ? IMG_URL + movie.poster_path : 'https://via.placeholder.com/300x450'}" 
+                     alt="${movie.title}" 
+                     class="movie-image"
+                     loading="lazy">
+                <div class="descripcion">
+                    <h4>Descripción</h4>
+                    <p>${movie.overview || 'Descripción no disponible'}</p>
+                </div>
+            </div>
+            <div class="movie-info">
+                <h3 class="movie-title">${movie.title}</h3>
+                <p class="movie-details">
+                    ${movie.release_date?.split('-')[0] || 'N/A'} • ${getGeneros(movie.genre_ids)}
+                </p>
+                <div class="movie-rating">
+                    <span class="stars ${getColorClass(movie.vote_average)}">
+                        ★ ${movie.vote_average?.toFixed(1) || 'N/A'}
+                    </span>
+                </div>
+            </div>
+        </div>
+    `).join('');
 
-getMovies(API_URL);
+    document.querySelectorAll('.movie-card').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const movieId = card.dataset.movieId;
+            loadMovieDetails(movieId);
+            history.pushState({ section: 'detalle', movieId }, '', `?section=detalle&movie=${movieId}`);
+        });
+    });
+};
 
-function getMovies(url){
-    fetch(url).then(res => res.json()).then(data => {
-        if(data.results.length !== 0){
-            showMovies(data.results);
-        }else{
-            main.innerHTML = '<h1 class="noresult">No se encontraron resultados</h1>'
-        }
-        
-    })
-}
+window.handleSearch = async () => {
+    const term = document.getElementById('buscar')?.value.trim();
+    if (!term) {
+        if (buscarLista) buscarLista.classList.add('ocultar_buscar');
+        getMovies(API_URL);
+        return;
+    }
 
-function getMoviesBuscar(url){
-    fetch(url).then(res => res.json()).then(data => {
-        if(data.results.length !== 0){
+    try {
+        const response = await fetch(`${BUSCAR_URL}&query=${encodeURIComponent(term)}`);
+        const data = await response.json();
+
+        if (data.results.length > 0) {
             displayMovieList(data.results);
-        }else{
-            buscarLista.innerHTML = `
-                    <div class="buscar_lista_item">
-                        <h5 class="noresult">No se encontraron resultados</h5>
-                    </div>
-            `
+            buscarLista.classList.remove('ocultar_buscar');
+        } else {
+            buscarLista.innerHTML = '<div class="buscar_lista_item"><p>No se encontraron resultados</p></div>';
+            buscarLista.classList.remove('ocultar_buscar');
         }
-        
-    })
+    } catch (error) {
+        console.error('Error en búsqueda:', error);
+        buscarLista.innerHTML = '<div class="buscar_lista_item"><p>Error en la búsqueda</p></div>';
+    }
+};
+
+function displayMovieList(movies) {
+    if (!buscarLista) return;
+
+    buscarLista.innerHTML = movies.map(movie => `
+        <div class="buscar_lista_item" data-movie-id="${movie.id}">
+            <div class="buscar_item_img">
+                <img src="${movie.poster_path ? IMG_URL + movie.poster_path : 'https://via.placeholder.com/300x450'}" 
+                     alt="${movie.title}">
+            </div>
+            <div class="buscar_item_info">
+                <h3>${movie.title}</h3>
+                <p>${movie.release_date || 'Fecha desconocida'}</p>
+                <span class="${getColorClass(movie.vote_average)}">★ ${movie.vote_average?.toFixed(1) || 'N/A'}</span>
+            </div>
+        </div>
+    `).join('');
+
+
+    document.querySelectorAll('.buscar_lista_item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            const movieId = item.dataset.movieId;
+            loadMovieDetails(movieId);
+            buscarLista.classList.add('ocultar_buscar');
+            history.pushState({ section: 'detalle', movieId }, '', `?section=detalle&movie=${movieId}`);
+        });
+    });
+    
 }
 
-function showMovies(data){
-    main.innerHTML = '';
-    data.forEach(movie => {
-        const {title, poster_path, vote_average, overview} = movie;
-        const movieEl =document.createElement('div');
-        movieEl.classList.add('peli_individual');
-        movieEl.innerHTML = `
-            <div class="peli_container">
-                <a class="peli_enlace" href="./src/Pages/pelicula.html">
-                    <img class="peli_logo" src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${title}">
-                </a>
-                <div class="peli_detalle">
-                    <div class="peli_info">
-                        <p class="titulo_peli">${title}</p>
-                        <span class="${getColor(vote_average)}">${vote_average}</span>
+async function loadMovieDetails(movieId) {
+    try {
+        const response = await fetch(`${BASE_URL}/movie/${movieId}?${API_KEY}`);
+        const data = await response.json();
+        showMovieDetail(data);
+    } catch (error) {
+        console.error('Error cargando detalle:', error);
+    }
+}
+
+function showMovieDetail(movie) {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.innerHTML = `
+        <section class="movie-detail">
+            <div class="detail-header">
+                <button class="back-button" onclick="loadSection('inicio')">&larr; Volver</button>
+                <h2 class="detail-title">${movie.title}</h2>
+            </div>
+            
+            <div class="detail-content">
+                <div class="detail-poster">
+                    <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}">
+                </div>
+                
+                <div class="detail-info">
+                    <p class="detail-meta">
+                        <span class="rating ${getColorClass(movie.vote_average)}">
+                            ★ ${movie.vote_average.toFixed(1)}
+                        </span>
+                        ${movie.release_date} • ${movie.runtime} mins
+                    </p>
+                    
+                    <div class="detail-genres">
+                        ${movie.genres.map(genre => `<span class="genre-tag">${genre.name}</span>`).join('')}
                     </div>
-                    <div class="descripcion">
-                        <h3>Descripción</h3>
-                        <H4>${overview}</h4>
+                    
+                    <p class="detail-overview">${movie.overview}</p>
+                    
+                    <div class="detail-extra">
+                        <h3 clas="sub">Información adicional</h3>
+                        <p>Presupuesto: $${movie.budget.toLocaleString()}</p>
+                        <p>Ingresos: $${movie.revenue.toLocaleString()}</p>
+                        <p>Estado: ${movie.status}</p>
                     </div>
                 </div>
             </div>
-        `;
+        </section>
+    `;
+}
 
-        main.appendChild(movieEl);
+function setupClickOutside() {
+    document.addEventListener('click', (e) => {
+        const buscarContainer = document.querySelector('.container-search');
+        if (!buscarContainer.contains(e.target)) {
+            buscarLista.classList.add('ocultar_buscar');
+        }
     });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function getColor(vote){
-    if(vote >= 8){
-        return 'green'
-    }else if(vote >= 5 && vote < 8){
-        return 'orange'
-    }else if(vote < 5){
-        return 'red'
-    }
+function getGeneros(genreIds) {
+    return genreIds.map(id => generos.find(g => g.id === id)?.name)
+        .filter(Boolean)
+        .slice(0, 2)
+        .join(', ') || 'Género no especificado';
 }
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
+function getColorClass(vote) {
+    return vote >= 8 ? 'green' : vote >= 5 ? 'orange' : 'red';
+}
 
-    const buscarTerm = buscar.value;
+function showErrorMessage(message) {
+    const main = document.getElementById('main');
+    if (main) main.innerHTML = `<h2 class="error">${message}</h2>`;
+}
 
-    if(buscarTerm){
-        getMovies(BUSCAR_URL + '&query=' + buscarTerm);
-    }else{
-        getMovies(API_URL);
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    buscarLista = document.getElementById('buscar_lista');
+    getMovies(API_URL);
+    setupClickOutside(); 
 });
-
-function findMovies(){
-    let term = buscar.value;
-    if(term.length > 0){
-        buscarLista.classList.remove('ocultar_buscar');
-        console.log(term);
-        getMoviesBuscar(BUSCAR_URL + '&query=' + term);
-    }else{
-        buscarLista.classList.add('ocultar_buscar')
-    }
-}
-
-function displayMovieList(movie){
-    buscarLista.innerHTML = "";
-    movie.forEach(movies => {
-        const {title, poster_path, release_date} = movies;
-        let listItem = document.createElement('div');
-        listItem.classList.add('buscar_lista_item');
-        listItem.innerHTML = `
-                            <div class="buscar_item_img">
-                                <img src="${poster_path ? IMG_URL+poster_path : "http://via.placeholder.com/1080x1500"}" alt="${title}">
-                            </div>
-                            <div class="buscar_item_info">
-                                <h3>${title}</h3>
-                                <p>${release_date}</p>
-                            </div>
-        `;
-        buscarLista.appendChild(listItem);
-    })  
-}
