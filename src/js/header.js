@@ -17,3 +17,38 @@ document.addEventListener("DOMContentLoaded", () => {
         body.classList.remove("nav-open"); 
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    const themeToggle = document.getElementById('themeToggle');
+    const savedTheme = localStorage.getItem('theme');
+    
+
+    if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        
+
+        themeToggle.innerHTML = newTheme === 'dark' 
+            ? '<i class="bi bi-moon-fill"></i>' 
+            : '<i class="bi bi-brightness-high-fill"></i>';
+    });
+    
+    // Inicializar ícono
+    const initialTheme = savedTheme || 'dark';
+    themeToggle.innerHTML = initialTheme === 'dark' 
+        ? '<i class="bi bi-moon-fill"></i>' 
+        : '<i class="bi bi-brightness-high-fill"></i>';
+});
+
+window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e => {
+    if (!localStorage.getItem('theme')) {
+        document.documentElement.removeAttribute('data-theme');
+    }
+});

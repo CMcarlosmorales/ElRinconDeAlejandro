@@ -20,34 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
     loadSection(initialSection);
 });
 
-async function loadSection(section) {
-    try {
-        const response = await fetch(`./src/sections/${section}.php`);
-        const content = await response.text();
-        
-        document.querySelector('.main-content').innerHTML = `
-            <div class="container">
-                ${content}
-            </div>
-        `;
-        
-    
-        document.querySelectorAll('.nav-list a').forEach(link => {
-            link.classList.remove('active');
-            if(link.dataset.section === section) {
-                link.classList.add('active');
-            }
-        });
 
-    } catch (error) {
-        console.error('Error cargando sección:', error);
-        document.querySelector('.main-content').innerHTML = `
-            <div class="container">
-                <h2 class="error">Error cargando contenido</h2>
-            </div>
-        `;
-    }
-}
 
 async function loadSection(section) {
     const mainContent = document.querySelector('.main-content');

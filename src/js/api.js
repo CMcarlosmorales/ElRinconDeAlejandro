@@ -77,6 +77,128 @@ window.showMovies = (movies, container) => {
     });
 };
 
+window.getTVShows = async (url) => {
+    try {
+        const container = document.getElementById('seriesGrid');
+        const response = await fetch(url);
+        const data = await response.json();
+        showTVShows(data.results, container);
+    } catch (error) {
+        showErrorMessage(error.message);
+    }
+};
+
+function showTVShows(tvShows, container) {
+    container.innerHTML = tvShows.map(show => `
+        <div class="movie-card" data-tv-id="${show.id}">
+            <div class="movie-image-container">
+                <img src="${show.poster_path ? IMG_URL + show.poster_path : 'https://via.placeholder.com/300x450'}" 
+                     alt="${show.name}" 
+                     class="movie-image"
+                     loading="lazy">
+                <div class="descripcion">
+                    <h4>Descripción</h4>
+                    <p>${show.overview || 'Descripción no disponible'}</p>
+                </div>
+            </div>
+            <div class="movie-info">
+                <h3 class="movie-title">${show.name}</h3>
+                <p class="movie-details">
+                    ${show.first_air_date?.split('-')[0] || 'N/A'} • ${getGeneros(show.genre_ids)}
+                </p>
+                <div class="movie-rating">
+                    <span class="stars ${getColorClass(show.vote_average)}">
+                        ★ ${show.vote_average?.toFixed(1) || 'N/A'}
+                    </span>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    setupTVShowClickHandlers();
+}
+
+
+async function loadTVShowDetails(tvId) {
+    try {
+        const response = await fetch(`${BASE_URL}/tv/${tvId}?${API_KEY}`);
+        const data = await response.json();
+        showTVShowDetail(data);
+    } catch (error) {
+        console.error('Error cargando detalle de serie:', error);
+    }
+}
+
+function showTVShowDetail(tvShow) {
+    const mainContent = document.querySelector('.main-content');
+    mainContent.innerHTML = `
+        <section class="movie-detail">
+            <div class="detail-header">
+                <button class="back-button" onclick="loadSection('series')">&larr; Volver</button>
+                <h2 class="detail-title">${tvShow.name}</h2>
+            </div>
+            
+            <div class="detail-content">
+                <div class="detail-poster">
+                    <img src="${IMG_URL + tvShow.poster_path}" alt="${tvShow.name}">
+                </div>
+                
+                <div class="detail-info">
+                    <p class="detail-meta">
+                        <span class="rating ${getColorClass(tvShow.vote_average)}">
+                            ★ ${tvShow.vote_average.toFixed(1)}
+                        </span>
+                        ${tvShow.first_air_date} • ${tvShow.number_of_seasons} temporadas
+                    </p>
+                    
+                    <div class="detail-genres">
+                        ${tvShow.genres.map(genre => `<span class="genre-tag">${genre.name}</span>`).join('')}
+                    </div>
+                    
+                    <p class="detail-overview">${tvShow.overview}</p>
+                    
+                    <div class="detail-extra">
+                        <h3 class="sub">Información adicional</h3>
+                        <p>Episodios: ${tvShow.number_of_episodes}</p>
+                        <p>Último episodio: ${tvShow.last_air_date}</p>
+                        <p>Estado: ${tvShow.status}</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    `;
+}
+
+// Handlers para clicks
+function setupMovieClickHandlers() {
+    document.querySelectorAll('.movie-card[data-movie-id]').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const movieId = card.dataset.movieId;
+            loadMovieDetails(movieId);
+            history.pushState({ section: 'detalle', movieId }, '', `?section=detalle&movie=${movieId}`);
+        });
+    });
+}
+
+function setupTVShowClickHandlers() {
+    document.querySelectorAll('.movie-card[data-tv-id]').forEach(card => {
+        card.addEventListener('click', (e) => {
+            const tvId = card.dataset.tvId;
+            loadTVShowDetails(tvId);
+            history.pushState({ section: 'detalle', tvId }, '', `?section=detalle&tv=${tvId}`);
+        });
+    });
+}
+
+window.loadGenreMovies = async (genreId) => {
+    try {
+        const url = `${BASE_URL}/discover/movie?${API_KEY}&with_genres=${genreId}`;
+        window.getMovies(url);
+    } catch (error) {
+        showErrorMessage('Error cargando películas del género');
+    }
+};
+
 window.handleSearch = async () => {
     const term = document.getElementById('buscar')?.value.trim();
     if (!term) {
@@ -128,7 +250,7 @@ function displayMovieList(movies) {
             history.pushState({ section: 'detalle', movieId }, '', `?section=detalle&movie=${movieId}`);
         });
     });
-    
+
 }
 
 async function loadMovieDetails(movieId) {
@@ -207,8 +329,62 @@ function showErrorMessage(message) {
     if (main) main.innerHTML = `<h2 class="error">${message}</h2>`;
 }
 
+
+async function loadGenreImages() {
+    const genreCards = document.querySelectorAll('.genre-card');
+
+    for (const card of genreCards) {
+        const img = card.querySelector('.genre-image');
+        const genreId = card.dataset.genre;
+        const genreName = card.querySelector('h3').textContent;
+
+        try {
+            const response = await fetch(
+                `${BASE_URL}/discover/movie?${API_KEY}&with_genres=${genreId}&sort_by=popularity.desc&page=1`
+            );
+            const data = await response.json();
+
+            const validMovies = data.results.slice(0, 5).filter(movie =>
+                movie.backdrop_path || movie.poster_path
+            );
+
+            if (validMovies.length === 0) throw new Error('No hay imágenes');
+
+            const randomMovie = validMovies[Math.floor(Math.random() * validMovies.length)];
+            const imagePath = randomMovie.backdrop_path || randomMovie.poster_path;
+
+            img.src = `${IMG_URL}${imagePath}`;
+            img.crossOrigin = "anonymous";
+
+            img.onerror = () => {
+                img.src = 'https://via.placeholder.com/300x450?text=Imagen+no+disponible';
+                card.classList.add('error');
+            };
+
+            img.onload = () => {
+                card.classList.remove('loading');
+            };
+
+            img.onerror = () => {
+                card.classList.remove('loading');
+                card.classList.add('error');
+            };
+
+        } catch (error) {
+            card.classList.remove('loading');
+            card.classList.add('error')
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     buscarLista = document.getElementById('buscar_lista');
-    getMovies(API_URL);
-    setupClickOutside(); 
+    setupClickOutside();
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('section') === 'series') {
+        getTVShows(TV_URL, document.getElementById('seriesGrid'));
+    } else {
+        getMovies(API_URL);
+    }
 });

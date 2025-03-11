@@ -7,9 +7,11 @@ session_start();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./src/img/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="./src/styles/index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>El Rincón de Alejandro</title>
+    <title>PELIFLIXX</title>
+    
 </head>
 
 <body>
