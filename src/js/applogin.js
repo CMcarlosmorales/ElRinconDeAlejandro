@@ -26,5 +26,28 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
 document.getElementById('registroForm').addEventListener('submit', (e) => {
     e.preventDefault();
     //registro
+    var formData = new FormData(document.getElementById("registroForm"));
+
+    var nombre = document.getElementById("nombreRegistro").value;
+    var correo = document.getElementById("emailRegistro").value;
+    var clave = document.getElementById("passwordRegistro").value;
+
+    if(nombre !== "" && correo !== "" && clave !== ""){
+        fetch("../controllers/login.php?op=insertar" , {
+            method: "post",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(datos => {
+            alert("Todo god")
+        })
+        .catch(error => {
+            console.error("Error: ", error)
+        })
+    } else {
+        alert("Debe llenar todos los campos");
+    }
+
+
     console.log('Registro submitted');
 });

@@ -9,8 +9,8 @@
         }
 
         //metodo insertar regiustro
-        public function insertar($nombre,$tipo_documento,$num_documento,$telefono,$email,$clave,$imagen){
-            $sql="INSERT INTO usuario (nombre,tipo_documento,nro_documento,telefono,correo,clave,imagen) VALUES ('$nombre','$tipo_documento','$num_documento','$telefono','$email','$clave','$imagen')";
+        public function insertar($nombre,$correo,$clave){
+            $sql="INSERT INTO usuario (nombre,correo,clave) VALUES ('$nombre','$correo','$clave')";
             return ejecutarConsulta($sql);
         }
 

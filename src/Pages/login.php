@@ -10,12 +10,12 @@
         <form class="auth-form active" id="loginForm">
             <div class="input-group">
                 <label for="emailLogin">Correo electrónico</label>
-                <input type="email" id="emailLogin" required>
+                <input type="email" id="emailLogin" name="emailLogin" required>
             </div>
             
             <div class="input-group">
                 <label for="passwordLogin">Contraseña</label>
-                <input type="password" id="passwordLogin" required>
+                <input type="password" id="passwordLogin" name="passwordLogin" required>
             </div>
             
             <button type="submit" class="auth-btn">Ingresar</button>
@@ -24,17 +24,17 @@
         <form class="auth-form" id="registroForm">
             <div class="input-group">
                 <label for="nombreRegistro">Nombre completo</label>
-                <input type="text" id="nombreRegistro" required>
+                <input type="text" id="nombreRegistro" name="nombreRegistro" required>
             </div>
             
             <div class="input-group">
                 <label for="emailRegistro">Correo electrónico</label>
-                <input type="email" id="emailRegistro" required>
+                <input type="email" id="emailRegistro" name="emailRegistro" required>
             </div>
             
             <div class="input-group">
                 <label for="passwordRegistro">Contraseña</label>
-                <input type="password" id="passwordRegistro" required>
+                <input type="password" id="passwordRegistro" name="passwordRegistro" required>
             </div>
             
             <button type="submit" class="auth-btn">Registrarse</button>
