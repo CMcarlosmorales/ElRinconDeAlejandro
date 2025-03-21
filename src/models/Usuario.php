@@ -14,6 +14,11 @@
             return ejecutarConsulta($sql);
         }
 
+        public function verificarCorreo($correo){
+            $sql="SELECT * FROM usuario WHERE correo='$correo'";
+            return ejecutarConsulta(($sql));
+        }
+
         public function actualizar($id,$nombre,$tipo_documento,$num_documento,$telefono,$email){
             $sql="UPDATE usuario SET nombre ='$nombre', tipo_documento = '$tipo_documento', nro_documento = '$num_documento', telefono = '$telefono', correo = '$email' WHERE id = '$id'";
             return ejecutarConsulta($sql);

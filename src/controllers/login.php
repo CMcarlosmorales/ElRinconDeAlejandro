@@ -12,8 +12,19 @@
 
     switch($_GET["op"]){
         case 'insertar':
-            $rspta = $usuario->insertar($nombreRegistro, $emailRegistro, $passwordRegistro);
-            echo json_encode($rspta ? array('tipo' => 'success', 'msg' => 'Usuario ingresado correctamente') : array('tipo' => 'failure', 'msg' => 'Error al intentar crear el usuario'));
+            $correoVerificado = $usuario->verificarCorreo($emailRegistro);
+            if(!$correoVerificado){
+                $clave = hash('sha256', $passwordRegistro);
+                $rspta = $usuario->insertar($nombreRegistro, $emailRegistro, $clave);
+                echo json_encode($rspta ? array('tipo' => 'success', 'msg' => 'Usuario ingresado correctamente') : array('tipo' => 'failure', 'msg' => 'Error al intentar crear el usuario'));
+                break;
+            }else{
+                echo json_encode(array('tipo' => 'failure', 'msg' => 'El correo ya se encuentra registrado'));
+                break;
+            }
+        case 'verificarCorreo':
+            $rspta = $usuario->verificarCorreo($emailRegistro);
+            echo json_encode($rspta ? array('tipo' => 'failure', 'msg' => 'El correo ya se encuentra registrado') : array('tipo' => 'success', 'msg' => 'Correo disponible'));
             break;
     }
 ?>

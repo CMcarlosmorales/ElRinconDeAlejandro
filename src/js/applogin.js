@@ -26,20 +26,27 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
 document.getElementById('registroForm').addEventListener('submit', (e) => {
     e.preventDefault();
     //registro
-    var formData = new FormData(document.getElementById("registroForm"));
+    var data = document.getElementById("registroForm");
+    var formData = new FormData(data);
 
     var nombre = document.getElementById("nombreRegistro").value;
     var correo = document.getElementById("emailRegistro").value;
     var clave = document.getElementById("passwordRegistro").value;
 
     if(nombre !== "" && correo !== "" && clave !== ""){
-        fetch("../controllers/login.php?op=insertar" , {
+        fetch("src/controllers/login.php?op=insertar" , {
             method: "post",
             body: formData
         })
         .then(response => response.text())
         .then(datos => {
-            alert("Todo god")
+            data = JSON.parse(datos);
+            if(data.tipo === "success"){
+                alert(data.msg);
+                toggleAuthModal();
+            }else{
+                alert(data.msg);
+            }
         })
         .catch(error => {
             console.error("Error: ", error)
@@ -47,7 +54,6 @@ document.getElementById('registroForm').addEventListener('submit', (e) => {
     } else {
         alert("Debe llenar todos los campos");
     }
-
 
     console.log('Registro submitted');
 });
