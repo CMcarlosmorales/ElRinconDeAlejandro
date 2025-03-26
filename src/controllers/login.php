@@ -13,7 +13,8 @@
     switch($_GET["op"]){
         case 'insertar':
             $correoVerificado = $usuario->verificarCorreo($emailRegistro);
-            if(!$correoVerificado){
+            $fetch = $correoVerificado->fetch_object();
+            if(empty($fetch)){
                 $clave = hash('sha256', $passwordRegistro);
                 $rspta = $usuario->insertar($nombreRegistro, $emailRegistro, $clave);
                 echo json_encode($rspta ? array('tipo' => 'success', 'msg' => 'Usuario ingresado correctamente') : array('tipo' => 'failure', 'msg' => 'Error al intentar crear el usuario'));

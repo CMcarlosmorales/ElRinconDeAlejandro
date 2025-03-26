@@ -41,6 +41,7 @@ document.getElementById('registroForm').addEventListener('submit', (e) => {
         .then(response => response.text())
         .then(datos => {
             data = JSON.parse(datos);
+            console.log(data);
             if(data.tipo === "success"){
                 alert(data.msg);
                 toggleAuthModal();
