@@ -11,7 +11,7 @@ session_start();
     <link rel="stylesheet" href="./src/styles/index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <title>PELIFLIXX</title>
-    
+
 </head>
 
 <body>
@@ -27,5 +27,10 @@ session_start();
 <script src="./src/js/navigation.js"></script>
 <script src="./src/js/header.js"></script>
 <script src="./src/js/applogin.js"></script>
+<script>
+    const userLogged = <?= isset($_SESSION['usuario']) ? 'true' : 'false' ?>;
+    const userData = <?= isset($_SESSION['usuario']) ?
+     json_encode($_SESSION['usuario']) : 'null' ?>;
+</script>
 
 </html>

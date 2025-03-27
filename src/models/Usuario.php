@@ -2,52 +2,37 @@
     //incluir la conexion de base de datos
     require "../config/Conexion.php";
     class Usuario{
-
-        //implementamos nuestro constructor
-        public function __construct(){
-
+            private $conexion;
+        
+            public function __construct() {
+                $this->conexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);
+                if ($this->conexion->connect_error) {
+                    die("Error de conexión: " . $this->conexion->connect_error);
+                }
+            }
+        
+            // Método para insertar usuario (versión simplificada)
+            public function insertar($nombre, $correo, $clave) {
+                $stmt = $this->conexion->prepare("INSERT INTO usuario (nombre, correo, clave) VALUES (?, ?, ?)");
+                $stmt->bind_param("sss", $nombre, $correo, $clave);
+                return $stmt->execute();
+            }
+        
+            // Verificar si el correo ya existe
+            public function verificarCorreo($correo) {
+                $stmt = $this->conexion->prepare("SELECT id FROM usuario WHERE correo = ?");
+                $stmt->bind_param("s", $correo);
+                $stmt->execute();
+                return $stmt->get_result();
+            }
+        
+            // Verificar credenciales de login
+            public function verificar($correo, $clave) {
+                $stmt = $this->conexion->prepare("SELECT id, nombre, correo FROM usuario WHERE correo = ? AND clave = ?");
+                $stmt->bind_param("ss", $correo, $clave);
+                $stmt->execute();
+                return $stmt->get_result();
+            }
         }
-
-        //metodo insertar regiustro
-        public function insertar($nombre,$correo,$clave){
-            $sql="INSERT INTO usuario (nombre,correo,clave) VALUES ('$nombre','$correo','$clave')";
-            return ejecutarConsulta($sql);
-        }
-
-        public function verificarCorreo($correo){
-            $sql="SELECT * FROM usuario WHERE correo='$correo'";
-            return ejecutarConsulta(($sql));
-        }
-
-        public function actualizar($id,$nombre,$tipo_documento,$num_documento,$telefono,$email){
-            $sql="UPDATE usuario SET nombre ='$nombre', tipo_documento = '$tipo_documento', nro_documento = '$num_documento', telefono = '$telefono', correo = '$email' WHERE id = '$id'";
-            return ejecutarConsulta($sql);
-        }
-
-        public function actualizarClave($id,$clave){
-            $sql="UPDATE usuario SET clave = '$clave' WHERE id = '$id'";
-            return ejecutarConsulta($sql);
-        }
-
-        public function mostrar($id){
-            $sql="SELECT * FROM usuario WHERE id = '$id'";
-            return ejecutarConsulta($sql);
-        }
-
-        public function confirmarclave($id, $clave){
-            $sql="SELECT * FROM usuario WHERE id = '$id' AND clave='$clave'";
-            return ejecutarConsulta($sql);
-        }
-
-        public function verificar($login,$clave){
-            $sql="SELECT * FROM usuario WHERE correo='$login' AND clave='$clave'";
-            return ejecutarConsulta($sql);
-        }
-
-        public function eliminar($id){
-            $sql="DELETE FROM usuario WHERE id = '$id'";
-            return ejecutarConsulta($sql);
-        }
-    }
 
  ?>

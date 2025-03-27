@@ -1,31 +1,83 @@
 <?php
-    session_start();
-    require_once '../models/Usuario.php';
+ob_start();
+header('Content-Type: application/json');
+session_start();
 
-    $usuario = new Usuario;
+require_once "../models/Usuario.php";
 
-    $emailLogin = isset($_POST["emailLogin"]) ? $_POST["emailLogin"] : "";
-    $passwordLogin = isset($_POST["passwordLogin"]) ? $_POST["passwordLogin"] : "";
-    $nombreRegistro = isset($_POST["nombreRegistro"]) ? $_POST["nombreRegistro"] : "";
-    $emailRegistro = isset($_POST["emailRegistro"]) ? $_POST["emailRegistro"] : "";
-    $passwordRegistro = isset($_POST["passwordRegistro"]) ? $_POST["passwordRegistro"] : "";
+try {
+    $usuario = new Usuario();
 
-    switch($_GET["op"]){
+    $op = $_GET['op'] ?? '';
+
+    switch ($op) {
         case 'insertar':
-            $correoVerificado = $usuario->verificarCorreo($emailRegistro);
-            $fetch = $correoVerificado->fetch_object();
-            if(empty($fetch)){
-                $clave = hash('sha256', $passwordRegistro);
-                $rspta = $usuario->insertar($nombreRegistro, $emailRegistro, $clave);
-                echo json_encode($rspta ? array('tipo' => 'success', 'msg' => 'Usuario ingresado correctamente') : array('tipo' => 'failure', 'msg' => 'Error al intentar crear el usuario'));
-                break;
-            }else{
-                echo json_encode(array('tipo' => 'failure', 'msg' => 'El correo ya se encuentra registrado'));
-                break;
+            $nombre = $_POST['nombreRegistro'] ?? '';
+            $email = $_POST['emailRegistro'] ?? '';
+            $password = $_POST['passwordRegistro'] ?? '';
+
+            if (empty($nombre) || empty($email) || empty($password)) {
+                throw new Exception("Todos los campos son obligatorios");
             }
-        case 'verificarCorreo':
-            $rspta = $usuario->verificarCorreo($emailRegistro);
-            echo json_encode($rspta ? array('tipo' => 'failure', 'msg' => 'El correo ya se encuentra registrado') : array('tipo' => 'success', 'msg' => 'Correo disponible'));
+
+            // Verificar si el correo ya existe
+            if ($usuario->verificarCorreo($email)->num_rows > 0) {
+                throw new Exception("El correo ya está registrado");
+            }
+
+            // Hash de la contraseña
+            $claveHash = hash('sha256', $password);
+
+            // Insertar usuario
+            if ($usuario->insertar($nombre, $email, $claveHash)) {
+                echo json_encode(["tipo" => "success", "msg" => "Registro exitoso"]);
+            } else {
+                throw new Exception("Error al registrar el usuario");
+            }
             break;
+
+            case 'verificar':
+                $email = $_POST['emailLogin'] ?? '';
+                $password = $_POST['passwordLogin'] ?? '';
+                
+                if (empty($email) || empty($password)) {
+                    throw new Exception("Complete todos los campos");
+                }
+            
+                $claveHash = hash('sha256', $password);
+                $resultado = $usuario->verificar($email, $claveHash);
+                
+                if ($resultado->num_rows > 0) {
+                    $usuarioData = $resultado->fetch_assoc();
+                    
+                    // Establecer todos los datos en sesión
+                    $_SESSION['usuario'] = [
+                        'id' => $usuarioData['id'],
+                        'nombre' => $usuarioData['nombre'],
+                        'correo' => $usuarioData['correo'],
+                    ];
+                    
+                    // Enviar datos de usuario en la respuesta
+                    echo json_encode([
+                        "tipo" => "success",
+                        "msg" => "Inicio exitoso",
+                        "usuario" => [
+                            "nombre" => $usuarioData['nombre'],
+                        ]
+                    ]);
+                    
+                } else {
+                    throw new Exception("Credenciales incorrectas");
+                }
+                break;
+
+        default:
+            throw new Exception("Operación no válida");
     }
+
+} catch (Exception $e) {
+    echo json_encode(["tipo" => "error", "msg" => $e->getMessage()]);
+}
+
+ob_end_flush();
 ?>

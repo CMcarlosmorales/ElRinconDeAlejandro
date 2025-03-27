@@ -19,42 +19,57 @@ document.querySelectorAll('.tab').forEach(tab => {
 
 document.getElementById('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
-   //login
-    console.log('Login submitted');
+    
+    // Obtener datos del formulario
+    const formData = new FormData(e.target);
+    
+    // Enviar datos al servidor
+    fetch('src/controllers/login.php?op=verificar', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Error en la respuesta del servidor");
+        return response.json();
+    })
+    .then(data => {
+        if (data.tipo === "success") {
+            // Redirigir o actualizar la interfaz
+            window.location.reload(); // Recargar para ver cambios en el header
+            alert(data.msg);
+        } else {
+            alert(data.msg);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error al iniciar sesión');
+    });
 });
 
 document.getElementById('registroForm').addEventListener('submit', (e) => {
     e.preventDefault();
-    //registro
-    var data = document.getElementById("registroForm");
-    var formData = new FormData(data);
-
-    var nombre = document.getElementById("nombreRegistro").value;
-    var correo = document.getElementById("emailRegistro").value;
-    var clave = document.getElementById("passwordRegistro").value;
-
-    if(nombre !== "" && correo !== "" && clave !== ""){
-        fetch("src/controllers/login.php?op=insertar" , {
-            method: "post",
-            body: formData
-        })
-        .then(response => response.text())
-        .then(datos => {
-            data = JSON.parse(datos);
-            console.log(data);
-            if(data.tipo === "success"){
-                alert(data.msg);
-                toggleAuthModal();
-            }else{
-                alert(data.msg);
-            }
-        })
-        .catch(error => {
-            console.error("Error: ", error)
-        })
-    } else {
-        alert("Debe llenar todos los campos");
-    }
-
-    console.log('Registro submitted');
+    
+    const formData = new FormData(e.target);
+    
+    fetch("src/controllers/login.php?op=insertar", {
+        method: "POST",
+        body: formData 
+    })
+    .then(response => {
+        if (!response.ok) throw new Error("Error de red");
+        return response.json(); 
+    })
+    .then(data => {
+        if (data.tipo === "success") {
+            alert(data.msg);
+            toggleAuthModal();
+        } else {
+            alert(data.msg);
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Error en el servidor");
+    });
 });

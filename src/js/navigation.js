@@ -29,28 +29,28 @@ async function loadSection(section) {
     const mainContent = document.querySelector('.main-content');
     try {
         mainContent.classList.add('loading');
-        
-        if(section === 'detalle') {
+
+        if (section === 'detalle') {
             const urlParams = new URLSearchParams(window.location.search);
             const movieId = urlParams.get('movie');
             const tvId = urlParams.get('tv');
-            
-            if(movieId) {
+
+            if (movieId) {
                 await loadMovieDetails(movieId);
                 return;
             }
-            if(tvId) {
+            if (tvId) {
                 await loadTVShowDetails(tvId);
                 return;
             }
         }
-        
+
         const response = await fetch(`./src/sections/${section}.php`);
         if (!response.ok) throw new Error('Sección no encontrada');
-        
+
         mainContent.innerHTML = await response.text();
-        
-        switch(section) {
+
+        switch (section) {
             case 'inicio':
                 initHomeSection();
                 break;
@@ -63,8 +63,11 @@ async function loadSection(section) {
             case 'categorias':
                 initCategories();
                 break;
+            case 'perfil':
+                initPerfil();
+                break;
         }
-        
+
         updateActiveLink(section);
     } catch (error) {
         mainContent.innerHTML = `<div class="error">${error.message}</div>`;
@@ -76,8 +79,8 @@ async function loadSection(section) {
 function initHomeSection() {
     window.getMovies(API_URL);
     setupSearch();
-    
-  
+
+
 }
 function initMoviesSection() {
     const filtro = document.getElementById('filtroPeliculas');
@@ -86,11 +89,11 @@ function initMoviesSection() {
         top_rated: `${BASE_URL}/movie/top_rated?${API_KEY}`,
         upcoming: `${BASE_URL}/movie/upcoming?${API_KEY}`
     };
-    
+
     filtro?.addEventListener('change', () => {
         window.getMovies(apiUrls[filtro.value]);
     });
-    
+
     window.getMovies(apiUrls.popular);
 }
 
@@ -101,17 +104,17 @@ function initSeriesSection() {
         top_rated: `${BASE_URL}/tv/top_rated?${API_KEY}`,
         on_the_air: `${BASE_URL}/tv/on_the_air?${API_KEY}`
     };
-    
+
     filtro?.addEventListener('change', () => {
         getTVShows(apiUrls[filtro.value]);
     });
-    
+
     getTVShows(apiUrls.popular);
 }
 
 function initCategories() {
     loadGenreImages();
-    
+
     document.querySelectorAll('.genre-card').forEach(card => {
         card.addEventListener('click', (e) => {
             e.preventDefault();
@@ -120,6 +123,10 @@ function initCategories() {
             history.pushState({ section: 'peliculas', genreId }, '', `?section=peliculas&genre=${genreId}`);
         });
     });
+}
+
+function initPerfil (){
+    
 }
 
 
@@ -234,7 +241,7 @@ function updateActiveLink(section) {
 function setupSearch() {
     const form = document.getElementById('form');
     const buscar = document.getElementById('buscar');
-    
+
     if (form && buscar) {
         form.onsubmit = (e) => {
             e.preventDefault();

@@ -52,3 +52,11 @@ window.matchMedia('(prefers-color-scheme: light)').addEventListener('change', e 
         document.documentElement.removeAttribute('data-theme');
     }
 });
+
+document.querySelectorAll('.logout-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        if (!confirm('¿Estás seguro de cerrar sesión?')) {
+            e.preventDefault();
+        }
+    });
+});

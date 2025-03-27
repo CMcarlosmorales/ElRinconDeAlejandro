@@ -272,6 +272,7 @@ function showMovieDetail(movie) {
                 <h2 class="detail-title">${movie.title}</h2>
             </div>
             
+            <!-- informacion de la pelicula -->
             <div class="detail-content">
                 <div class="detail-poster">
                     <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}">
@@ -292,15 +293,64 @@ function showMovieDetail(movie) {
                     <p class="detail-overview">${movie.overview}</p>
                     
                     <div class="detail-extra">
-                        <h3 clas="sub">Información adicional</h3>
+                        <h3 class="sub">Información adicional</h3>
                         <p>Presupuesto: $${movie.budget.toLocaleString()}</p>
                         <p>Ingresos: $${movie.revenue.toLocaleString()}</p>
                         <p>Estado: ${movie.status}</p>
                     </div>
                 </div>
             </div>
+
+            <!-- seccion de comentario-->
+            <div class="comments-section">
+                <h3 class="comments-title">Comentarios</h3>
+                
+                <!-- Ejemplo de comentario (maquetación) -->
+                <div class="comment-list">
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <i class="bi bi-person-circle"></i>
+                            <div class="comment-user">
+                                <span class="comment-author">Juan Pérez</span>
+                                <span class="comment-date">Hace 2 días</span>
+                            </div>
+                        </div>
+                        <p class="comment-text">¡Excelente película! La recomiendo totalmente.</p>
+                    </div>
+                </div>
+
+                <!-- si el usuario esta loguedo le permite enviar comentario-->
+                ${userLogged ? `
+                    <form class="comment-form">
+                        <h4>Deja tu comentario</h4>
+                        <div class="form-group">
+                            <textarea 
+                                class="comment-input" 
+                                placeholder="Escribe tu comentario..." 
+                                rows="3" 
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="auth-btn">Publicar comentario</button>
+                    </form>
+                ` : `
+                    <div class="comment-login">
+                        <p>Debes <button class="text-link" onclick="toggleAuthModal()">iniciar sesión</button> para comentar</p>
+                    </div>
+                `}
+            </div>
         </section>
     `;
+
+    if(user) {
+        const commentForm = mainContent.querySelector('.comment-form');
+        if(commentForm) {
+            commentForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                alert('Comentario enviado (demo)');
+                commentForm.reset();
+            });
+        }
+    }
 }
 
 function setupClickOutside() {
