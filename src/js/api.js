@@ -321,10 +321,12 @@ function showMovieDetail(movie) {
 
                 <!-- si el usuario esta loguedo le permite enviar comentario-->
                 ${userLogged ? `
-                    <form class="comment-form">
+                    <form id="formComentario" class="comment-form">
                         <h4>Deja tu comentario</h4>
                         <div class="form-group">
-                            <textarea 
+                            <textarea
+                                id="comentarioArea"
+                                name="comentarioArea" 
                                 class="comment-input" 
                                 placeholder="Escribe tu comentario..." 
                                 rows="3" 
@@ -341,7 +343,7 @@ function showMovieDetail(movie) {
         </section>
     `;
 
-    if(user) {
+    /*if(user) {
         const commentForm = mainContent.querySelector('.comment-form');
         if(commentForm) {
             commentForm.addEventListener('submit', (e) => {
@@ -350,7 +352,44 @@ function showMovieDetail(movie) {
                 commentForm.reset();
             });
         }
-    }
+    }*/
+
+    document.getElementById('formComentario').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const urlActual = window.location.href;
+
+        const urlObj = new URL(urlActual);
+        const params = new URLSearchParams(urlObj.search);
+        const movie = params.get("movie");
+
+        // Obtener datos del formulario
+        const formData = new FormData(e.target);
+        formData.append("movie", movie);
+
+        // Enviar datos al servidor
+        fetch('src/controllers/comentario.php?op=insertar', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+                return response.json();
+            })
+            .then(data => {
+                if (data.tipo === "success") {
+                    // Redirigir o actualizar la interfaz
+                    window.location.reload(); // Recargar para ver cambios en el header
+                    alert(data.msg);
+                } else {
+                    alert(data.msg);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al iniciar sesión');
+            });
+    });
 }
 
 function setupClickOutside() {

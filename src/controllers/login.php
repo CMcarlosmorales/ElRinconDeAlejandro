@@ -36,48 +36,63 @@ try {
             }
             break;
 
-            case 'verificar':
-                $email = $_POST['emailLogin'] ?? '';
-                $password = $_POST['passwordLogin'] ?? '';
-                
-                if (empty($email) || empty($password)) {
-                    throw new Exception("Complete todos los campos");
-                }
-            
-                $claveHash = hash('sha256', $password);
-                $resultado = $usuario->verificar($email, $claveHash);
-                
-                if ($resultado->num_rows > 0) {
-                    $usuarioData = $resultado->fetch_assoc();
-                    
-                    // Establecer todos los datos en sesión
-                    $_SESSION['usuario'] = [
-                        'id' => $usuarioData['id'],
-                        'nombre' => $usuarioData['nombre'],
-                        'correo' => $usuarioData['correo'],
-                    ];
-                    
-                    // Enviar datos de usuario en la respuesta
-                    echo json_encode([
-                        "tipo" => "success",
-                        "msg" => "Inicio exitoso",
-                        "usuario" => [
-                            "nombre" => $usuarioData['nombre'],
-                        ]
-                    ]);
-                    
-                } else {
-                    throw new Exception("Credenciales incorrectas");
-                }
-                break;
+        case 'verificar':
+            $email = $_POST['emailLogin'] ?? '';
+            $password = $_POST['passwordLogin'] ?? '';
 
+            if (empty($email) || empty($password)) {
+                throw new Exception("Complete todos los campos");
+            }
+
+            $claveHash = hash('sha256', $password);
+            $resultado = $usuario->verificar($email, $claveHash);
+
+            if ($resultado->num_rows > 0) {
+                $usuarioData = $resultado->fetch_assoc();
+
+                // Establecer todos los datos en sesión
+                $_SESSION['usuario'] = [
+                    'id' => $usuarioData['id'],
+                    'nombre' => $usuarioData['nombre'],
+                    'correo' => $usuarioData['correo'],
+                ];
+
+                // Enviar datos de usuario en la respuesta
+                echo json_encode([
+                    "tipo" => "success",
+                    "msg" => "Inicio exitoso",
+                    "usuario" => [
+                        "nombre" => $usuarioData['nombre'],
+                    ]
+                ]);
+            } else {
+                throw new Exception("Credenciales incorrectas");
+            }
+            break;
+        case 'salir':
+            if (ini_get("session.use_cookies")) {
+                $params = session_get_cookie_params();
+                setcookie(
+                    session_name(),
+                    '',
+                    time() - 42000,
+                    $params["path"],
+                    $params["domain"],
+                    $params["secure"],
+                    $params["httponly"]
+                );
+            }
+
+            session_destroy();
+
+            header("Location: ../../index.php");
+            exit;
+            break;
         default:
             throw new Exception("Operación no válida");
     }
-
 } catch (Exception $e) {
     echo json_encode(["tipo" => "error", "msg" => $e->getMessage()]);
 }
 
 ob_end_flush();
-?>

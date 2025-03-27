@@ -26,7 +26,7 @@ $usuarioLogueado = isset($_SESSION['usuario']);
                                 </a>
                             </li>
                         </div>
-                        <a href="../../src/controllers/logout.php" class="logout-btn">
+                        <a href="./src/controllers/login.php?op=salir" class="logout-btn">
                             <i class="bi bi-box-arrow-right"></i>
                         </a>
                     </div>
