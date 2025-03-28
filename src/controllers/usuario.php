@@ -23,12 +23,12 @@ switch ($_GET["op"]) {
             $claveHash = hash("SHA256", $clave);
 
             $rspta = $usuario->insertar($nombre, $email, $claveHash);
-            
-            echo json_encode($rspta 
-                ? ["tipo" => "success", "msg" => "Usuario registrado"] 
-                : ["tipo" => "error", "msg" => "Error al registrar"]
-            );
 
+            echo json_encode(
+                $rspta
+                    ? ["tipo" => "success", "msg" => "Usuario registrado"]
+                    : ["tipo" => "error", "msg" => "Error al registrar"]
+            );
         } catch (Exception $e) {
             echo json_encode(["tipo" => "error", "msg" => $e->getMessage()]);
         }
@@ -37,7 +37,7 @@ switch ($_GET["op"]) {
     case 'verificar':
         try {
             $password = $_POST["passwordLogin"] ?? "";
-            
+
             if (empty($email) || empty($password)) {
                 throw new Exception("Complete todos los campos");
             }
@@ -56,16 +56,22 @@ switch ($_GET["op"]) {
             } else {
                 throw new Exception("Credenciales incorrectas");
             }
-
         } catch (Exception $e) {
             echo json_encode(["tipo" => "error", "msg" => $e->getMessage()]);
         }
         break;
-
-
+    case 'desactivar':
+        $id = $_POST['id'];
+        $usuario->desactivar($id);
+        echo json_encode(["tipo" => "success", "msg" => "Usuario suspendido"]);
+        break;
+    case 'activar':
+        $id = $_POST['id'];
+        $usuario->activar($id);
+        echo json_encode(["tipo" => "success", "msg" => "Usuario activado"]);
+        break;
     default:
         echo json_encode(["tipo" => "error", "msg" => "Operación no válida"]);
 }
 
 ob_end_flush();
-?>

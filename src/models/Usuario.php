@@ -33,6 +33,16 @@
                 $stmt->execute();
                 return $stmt->get_result();
             }
+
+            public function desactivar($id){
+                $sql = "UPDATE usuario SET is_banned = 1 WHERE id = '$id'";
+                return ejecutarConsulta($sql);
+            }
+
+            public function activar($id){
+                $sql = "UPDATE usuario SET is_banned = 0 WHERE id = '$id'";
+                return ejecutarConsulta($sql);
+            }
         }
 
  ?>

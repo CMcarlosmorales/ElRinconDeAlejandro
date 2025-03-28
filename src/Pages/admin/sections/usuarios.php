@@ -79,9 +79,10 @@ try {
                         <?php endif; ?>
                     </td>
                     <td class="actions">
-                        <button class="btn btn--ban <?= $usuario['is_banned'] ? 'btn--unban' : '' ?>"
+                        <button class="btn btn--ban <?= $usuario['is_banned'] === 1 ? 'btn--unban' : '' ?>"
                             data-id="<?= $usuario['id'] ?>"
-                            title="<?= $usuario['is_banned'] ? 'Reactivar usuario' : 'Suspender usuario' ?>">
+                            title="<?= $usuario['is_banned'] ? 'Reactivar usuario' : 'Suspender usuario' ?>" 
+                            onclick="<?= $usuario['is_banned'] === 0 ? "desactivar({$usuario['id']})" : "activar({$usuario['id']})" ?>">
                             <i class="bi <?= $usuario['is_banned'] ? 'bi-unlock' : 'bi-lock' ?>"></i>
                             <?= $usuario['is_banned'] ? 'Desbanear' : 'Banear' ?>
                         </button>

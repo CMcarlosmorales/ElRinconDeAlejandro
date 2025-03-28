@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             mainContent.classList.add('loading');
             
-            const response = await fetch(`/src/Pages/admin/sections/${section}.php`);
+            const response = await fetch(`../../../src/Pages/admin/sections/${section}.php`);
             
             if (!response.ok) throw new Error('Sección no encontrada: ' + section);
             

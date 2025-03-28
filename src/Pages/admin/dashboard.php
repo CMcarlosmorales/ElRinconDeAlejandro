@@ -13,7 +13,7 @@ if (!isset($_SESSION['admin_logged'])) {
 <head>
     <meta charset="UTF-8">
     <title>Panel Admin - PELIFLIXX</title>
-    <link rel="stylesheet" href="/src/styles/index.css"> 
+    <link rel="stylesheet" href="../../../src/styles/index.css"> 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 <body>
@@ -28,6 +28,7 @@ if (!isset($_SESSION['admin_logged'])) {
     </div>
 
    
-    <script src="/src/js/navigationAdmin.js"></script>
+    <script src="../../../src/js/navigationAdmin.js"></script>
+    <script src="../../../src/js/appAdmin.js"></script>
 </body>
 </html>

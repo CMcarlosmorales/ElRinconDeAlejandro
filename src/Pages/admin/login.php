@@ -11,13 +11,13 @@ if (isset($_SESSION['admin_logged'])) {
 <head>
     <meta charset="UTF-8">
     <title>Admin Login - PELIFLIXX</title>
-    <link rel="stylesheet" href="/src/styles/index.css">
+    <link rel="stylesheet" href="../../../src/styles/index.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
 
 <body class="admin-login">
     <div class="admin-login-container">
-        <form action="/src/controllers/admin.php" method="POST" class="admin-login-form">
+        <form action="../../../src/controllers/admin.php?op=login" method="POST" class="admin-login-form">
             
             <h1 class="titulo-login"> <i class="bi bi-shield-lock"></i>Acceso Administrador</h1>
 
