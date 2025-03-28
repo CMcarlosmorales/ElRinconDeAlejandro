@@ -27,6 +27,8 @@ session_start();
 <script src="./src/js/navigation.js"></script>
 <script src="./src/js/header.js"></script>
 <script src="./src/js/applogin.js"></script>
+
+
 <script>
     const userLogged = <?= isset($_SESSION['usuario']) ? 'true' : 'false' ?>;
     const userData = <?= isset($_SESSION['usuario']) ?

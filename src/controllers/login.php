@@ -20,15 +20,12 @@ try {
                 throw new Exception("Todos los campos son obligatorios");
             }
 
-            // Verificar si el correo ya existe
             if ($usuario->verificarCorreo($email)->num_rows > 0) {
                 throw new Exception("El correo ya está registrado");
             }
 
-            // Hash de la contraseña
             $claveHash = hash('sha256', $password);
 
-            // Insertar usuario
             if ($usuario->insertar($nombre, $email, $claveHash)) {
                 echo json_encode(["tipo" => "success", "msg" => "Registro exitoso"]);
             } else {
@@ -50,14 +47,12 @@ try {
             if ($resultado->num_rows > 0) {
                 $usuarioData = $resultado->fetch_assoc();
 
-                // Establecer todos los datos en sesión
                 $_SESSION['usuario'] = [
                     'id' => $usuarioData['id'],
                     'nombre' => $usuarioData['nombre'],
                     'correo' => $usuarioData['correo'],
                 ];
 
-                // Enviar datos de usuario en la respuesta
                 echo json_encode([
                     "tipo" => "success",
                     "msg" => "Inicio exitoso",

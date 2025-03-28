@@ -15,16 +15,13 @@ switch ($_GET["op"]) {
     case 'insertar':
         try {
 
-            // Verificar si el correo ya existe
             $correoExistente = $usuario->verificarCorreo($email);
             if ($correoExistente->num_rows > 0) {
                 throw new Exception("El correo ya está registrado");
             }
 
-            // Hash de la contraseña
             $claveHash = hash("SHA256", $clave);
 
-            // Insertar usuario
             $rspta = $usuario->insertar($nombre, $email, $claveHash);
             
             echo json_encode($rspta 
@@ -65,7 +62,6 @@ switch ($_GET["op"]) {
         }
         break;
 
-    // ... (otros casos se mantienen igual si son necesarios)
 
     default:
         echo json_encode(["tipo" => "error", "msg" => "Operación no válida"]);

@@ -8,7 +8,7 @@ session_start();
     </div>
 
     <div class="profile-grid">
-        <!-- Sección de Información Personal -->
+        
         <form class="profile-form" action="../controllers/usuario.php?op=actualizar" method="POST">
             <div class="form-section">
                 <h3><i class="bi bi-pencil-square"></i> Información Personal</h3>
