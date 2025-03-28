@@ -263,7 +263,7 @@ async function loadMovieDetails(movieId) {
     }
 }
 
-function showMovieDetail(movie) {
+async function showMovieDetail(movie) {
     const mainContent = document.querySelector('.main-content');
     mainContent.innerHTML = `
         <section class="movie-detail">
@@ -306,7 +306,7 @@ function showMovieDetail(movie) {
                 <h3 class="comments-title">Comentarios</h3>
                 
                 <!-- Ejemplo de comentario (maquetación) -->
-                <div class="comment-list">
+                <div class="comment-list" id="commentList">
                     <div class="comment-item">
                         <div class="comment-header">
                             <i class="bi bi-person-circle"></i>
@@ -343,16 +343,8 @@ function showMovieDetail(movie) {
         </section>
     `;
 
-    /*if(user) {
-        const commentForm = mainContent.querySelector('.comment-form');
-        if(commentForm) {
-            commentForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                alert('Comentario enviado (demo)');
-                commentForm.reset();
-            });
-        }
-    }*/
+    console.log(movie.id);
+    await loadComments(movie.id);
 
     document.getElementById('formComentario').addEventListener('submit', (e) => {
         e.preventDefault();
@@ -389,6 +381,57 @@ function showMovieDetail(movie) {
                 console.error('Error:', error);
                 alert('Error al iniciar sesión');
             });
+    });
+}
+
+async function loadComments(movieId) {
+    try {
+        const response = await fetch(`src/controllers/comentario.php?op=listar&movieId=${movieId}`);
+        console.log(response);
+        const comments = await response.json();
+        
+        const commentList = document.getElementById('commentList');
+        console.log(comments);
+        
+        if (comments.length === 0) {
+            commentList.innerHTML = '<p class="no-comments">No hay comentarios aún. ¡Sé el primero en comentar!</p>';
+            return;
+        }
+        
+        commentList.innerHTML = comments.map(comment => `
+            <div class="comment-item">
+                <div class="comment-header">
+                    <i class="bi bi-person-circle"></i>
+                    <div class="comment-user">
+                        <span class="comment-author">${comment.nombre}</span>
+                        <span class="comment-date">${formatCommentDate(comment.fecha)}</span>
+                    </div>
+                </div>
+                <p class="comment-text">${comment.comentario}</p>
+            </div>
+        `).join('');
+        
+    } catch (error) {
+        console.error('Error al cargar comentarios:', error);
+        document.getElementById('commentList').innerHTML = 
+            '<p class="error-comments">Error al cargar comentarios. Intenta recargar la página.</p>';
+    }
+}
+
+function formatCommentDate(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInSeconds = Math.floor((now - date) / 1000);
+    
+    if (diffInSeconds < 60) return 'Hace unos segundos';
+    if (diffInSeconds < 3600) return `Hace ${Math.floor(diffInSeconds / 60)} minutos`;
+    if (diffInSeconds < 86400) return `Hace ${Math.floor(diffInSeconds / 3600)} horas`;
+    if (diffInSeconds < 2592000) return `Hace ${Math.floor(diffInSeconds / 86400)} días`;
+    
+    return date.toLocaleDateString('es-ES', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
     });
 }
 

@@ -15,7 +15,7 @@ try{
             $idusuario = $_SESSION['usuario']['id'] ?? '';
             $idmovie = $_POST['movie'] ?? '';
             date_default_timezone_set("America/Caracas");
-            $fechaActual = date("Y-m-d");
+            $fechaActual = date("Y-m-d H:i:s");
             $comentarioArea = $_POST['comentarioArea'] ?? '';
 
             if (empty($idusuario) || empty($idmovie) || empty($fechaActual) || empty($fechaActual)) {
@@ -26,6 +26,28 @@ try{
                 echo json_encode(["tipo" => "success", "msg" => "Comentario publicado"]);
             } else {
                 throw new Exception("Error al publicar comentario");
+            }
+            break;
+        case 'listar':
+            $idmovie = $_GET['movieId'] ?? '';
+
+            if (empty($idmovie)) {
+                throw new Exception("No se ha podido obtener la dirección deseada");
+            }
+
+            $rspta = $comentario->listarComentario($idmovie);
+            $comentarios = [];
+            if ($rspta) {
+                foreach ($rspta as $row) {
+                    $comentarios[] = [
+                        "nombre" => $row['nombre'],
+                        "fecha" => $row['fecha'],
+                        "comentario" => $row['comentario']
+                    ];
+                }
+                echo json_encode($comentarios);
+            } else {
+                throw new Exception("Error al listar comentarios");
             }
             break;
     }

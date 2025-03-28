@@ -10,5 +10,10 @@
             $sql = "INSERT INTO comentario (idusuario, idmovie, comentario, fecha) VALUES ('$idusuario','$idmovie','$comentario','$fecha');";
             return ejecutarConsulta($sql);
         }
+
+        public function listarComentario($idmovie){
+            $sql = "SELECT c.*, u.nombre FROM comentario c INNER JOIN usuario u ON c.idusuario=u.id WHERE c.idmovie='$idmovie'";
+            return ejecutarConsulta($sql);
+        }
     }
 ?>
