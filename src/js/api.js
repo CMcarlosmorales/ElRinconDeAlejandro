@@ -1,8 +1,15 @@
-const API_KEY = 'api_key=65df7f7394c219558c55c1f30d4b6f45';
-const BASE_URL = 'https://api.themoviedb.org/3';
-const API_URL = `${BASE_URL}/discover/movie?sort_by=popularity.desc&${API_KEY}`;
-const IMG_URL = 'https://image.tmdb.org/t/p/w500';
-const BUSCAR_URL = `${BASE_URL}/search/movie?${API_KEY}`;
+import { showLoader, hideLoader, showMessage } from "./app.js";
+import { loadSection } from "./navigation.js";
+import { toggleAuthModal } from "./applogin.js";
+window.loadSection = loadSection; 
+window.toggleAuthModal = toggleAuthModal; 
+
+export const API_KEY = 'api_key=65df7f7394c219558c55c1f30d4b6f45';
+export const BASE_URL = 'https://api.themoviedb.org/3';
+export const API_URL = `${BASE_URL}/discover/movie?sort_by=popularity.desc&${API_KEY}`;
+export const IMG_URL = 'https://image.tmdb.org/t/p/w500';
+export const BUSCAR_URL = `${BASE_URL}/search/movie?${API_KEY}`;
+export const TV_URL = `${BASE_URL}/discover/tv?sort_by=popularity.desc&${API_KEY}`;
 
 const generos = [
     { id: 28, name: 'Acción' },
@@ -33,15 +40,20 @@ window.getMovies = async (url) => {
         const main = document.getElementById('main');
         const response = await fetch(url);
         const data = await response.json();
+        
 
         showMovies(data.results, main);
         if (buscarLista) buscarLista.classList.add('ocultar_buscar');
     } catch (error) {
-        showErrorMessage(error.message);
+        
+        showMessage(error.message, 'error');
     }
 };
 
 window.showMovies = (movies, container) => {
+    if (!container) {
+        return;
+    }
     container.innerHTML = movies.map(movie => `
         <div class="movie-card" data-movie-id="${movie.id}">
             <div class="movie-image-container">
@@ -77,7 +89,7 @@ window.showMovies = (movies, container) => {
     });
 };
 
-window.getTVShows = async (url) => {
+export const getTVShows = async (url) => {
     try {
         const container = document.getElementById('seriesGrid');
         const response = await fetch(url);
@@ -180,7 +192,7 @@ function setupMovieClickHandlers() {
     });
 }
 
-function setupTVShowClickHandlers() {
+export function setupTVShowClickHandlers() {
     document.querySelectorAll('.movie-card[data-tv-id]').forEach(card => {
         card.addEventListener('click', (e) => {
             const tvId = card.dataset.tvId;
@@ -253,7 +265,7 @@ function displayMovieList(movies) {
 
 }
 
-async function loadMovieDetails(movieId) {
+export async function loadMovieDetails(movieId) {
     try {
         const response = await fetch(`${BASE_URL}/movie/${movieId}?${API_KEY}`);
         const data = await response.json();
@@ -263,161 +275,167 @@ async function loadMovieDetails(movieId) {
     }
 }
 
-async function showMovieDetail(movie) {
+
+export async function showMovieDetail(movie) {
     const mainContent = document.querySelector('.main-content');
-    mainContent.innerHTML = `
-        <section class="movie-detail">
-            <div class="detail-header">
-                <button class="back-button" onclick="loadSection('inicio')">&larr; Volver</button>
-                <h2 class="detail-title">${movie.title}</h2>
-            </div>
-            
-            <!-- informacion de la pelicula -->
-            <div class="detail-content">
-                <div class="detail-poster">
-                    <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}">
-                </div>
-                
-                <div class="detail-info">
-                    <p class="detail-meta">
-                        <span class="rating ${getColorClass(movie.vote_average)}">
-                            ★ ${movie.vote_average.toFixed(1)}
-                        </span>
-                        ${movie.release_date} • ${movie.runtime} mins
-                    </p>
-                    
-                    <div class="detail-genres">
-                        ${movie.genres.map(genre => `<span class="genre-tag">${genre.name}</span>`).join('')}
-                    </div>
-                    
-                    <p class="detail-overview">${movie.overview}</p>
-                    
-                    <div class="detail-extra">
-                        <h3 class="sub">Información adicional</h3>
-                        <p>Presupuesto: $${movie.budget.toLocaleString()}</p>
-                        <p>Ingresos: $${movie.revenue.toLocaleString()}</p>
-                        <p>Estado: ${movie.status}</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- seccion de comentario-->
-            <div class="comments-section">
-                <h3 class="comments-title">Comentarios</h3>
-                
-                <!-- Ejemplo de comentario (maquetación) -->
-                <div class="comment-list" id="commentList">
-                    <div class="comment-item">
-                        <div class="comment-header">
-                            <i class="bi bi-person-circle"></i>
-                            <div class="comment-user">
-                                <span class="comment-author">Juan Pérez</span>
-                                <span class="comment-date">Hace 2 días</span>
-                            </div>
-                        </div>
-                        <p class="comment-text">¡Excelente película! La recomiendo totalmente.</p>
-                    </div>
-                </div>
-
-                <!-- si el usuario esta loguedo le permite enviar comentario-->
-                ${userLogged ? `
-                    <form id="formComentario" class="comment-form">
-                        <h4>Deja tu comentario</h4>
-                        <div class="form-group">
-                            <textarea
-                                id="comentarioArea"
-                                name="comentarioArea" 
-                                class="comment-input" 
-                                placeholder="Escribe tu comentario..." 
-                                rows="3" 
-                                required></textarea>
-                        </div>
-                        <button type="submit" class="auth-btn">Publicar comentario</button>
-                    </form>
-                ` : `
-                    <div class="comment-login">
-                        <p>Debes <button class="text-link" onclick="toggleAuthModal()">iniciar sesión</button> para comentar</p>
-                    </div>
-                `}
-            </div>
-        </section>
-    `;
-
-    console.log(movie.id);
-    await loadComments(movie.id);
-
-    document.getElementById('formComentario').addEventListener('submit', (e) => {
-        e.preventDefault();
-
-        const urlActual = window.location.href;
-
-        const urlObj = new URL(urlActual);
-        const params = new URLSearchParams(urlObj.search);
-        const movie = params.get("movie");
-
-        // Obtener datos del formulario
-        const formData = new FormData(e.target);
-        formData.append("movie", movie);
-
-        // Enviar datos al servidor
-        fetch('src/controllers/comentario.php?op=insertar', {
-            method: 'POST',
-            body: formData
-        })
-            .then(response => {
-                if (!response.ok) throw new Error("Error en la respuesta del servidor");
-                return response.json();
-            })
-            .then(data => {
-                if (data.tipo === "success") {
-                    // Redirigir o actualizar la interfaz
-                    window.location.reload(); // Recargar para ver cambios en el header
-                    alert(data.msg);
-                } else {
-                    alert(data.msg);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Error al iniciar sesión');
-            });
-    });
-}
-
-async function loadComments(movieId) {
+    
+    showLoader();
+    
     try {
-        const response = await fetch(`src/controllers/comentario.php?op=listar&movieId=${movieId}`);
-        console.log(response);
-        const comments = await response.json();
-        
-        const commentList = document.getElementById('commentList');
-        console.log(comments);
-        
-        if (comments.length === 0) {
-            commentList.innerHTML = '<p class="no-comments">No hay comentarios aún. ¡Sé el primero en comentar!</p>';
-            return;
+        mainContent.innerHTML = `
+                   <section class="movie-detail">
+                       <div class="detail-header">
+                           <button class="back-button" onclick="loadSection('inicio')">&larr; Volver</button>
+                           <h2 class="detail-title">${movie.title}</h2>
+                       </div>
+                       
+                       <!-- informacion de la pelicula -->
+                       <div class="detail-content">
+                           <div class="detail-poster">
+                               <img src="${IMG_URL + movie.poster_path}" alt="${movie.title}">
+                           </div>
+                           
+                           <div class="detail-info">
+                               <p class="detail-meta">
+                                   <span class="rating ${getColorClass(movie.vote_average)}">
+                                       ★ ${movie.vote_average.toFixed(1)}
+                                   </span>
+                                   ${movie.release_date} • ${movie.runtime} mins
+                               </p>
+                               
+                               <div class="detail-genres">
+                                   ${movie.genres.map(genre => `<span class="genre-tag">${genre.name}</span>`).join('')}
+                               </div>
+                               
+                               <p class="detail-overview">${movie.overview}</p>
+                               
+                               <div class="detail-extra">
+                                   <h3 class="sub">Información adicional</h3>
+                                   <p>Presupuesto: $${movie.budget.toLocaleString()}</p>
+                                   <p>Ingresos: $${movie.revenue.toLocaleString()}</p>
+                                   <p>Estado: ${movie.status}</p>
+                               </div>
+                           </div>
+                       </div>
+           
+                       <!-- seccion de comentario-->
+                       <div class="comments-section">
+                       <!-- si el usuario esta loguedo le permite enviar comentario-->
+                       ${userLogged ? `
+                           <form id="formComentario" class="comment-form">
+                               <h4>Deja tu comentario</h4>
+                               <div class="form-group">
+                                   <textarea
+                                       id="comentarioArea"
+                                       name="comentarioArea" 
+                                       class="comment-input" 
+                                       placeholder="Escribe tu comentario..." 
+                                       rows="3" 
+                                       required></textarea>
+                               </div>
+                               <button type="submit" class="auth-btn">Publicar comentario</button>
+                           </form>
+                       ` : `
+                           <div class="comment-login">
+                               <p>Debes <button class="text-link" onclick="toggleAuthModal()">iniciar sesión</button> para comentar</p>
+                           </div>
+                       `}
+                           <h3 class="comments-title">Comentarios</h3>
+                           
+                           <!-- Ejemplo de comentario (maquetación) -->
+                           <div class="comment-list" id="commentList">
+                               <div class="comment-item">
+                                   <div class="comment-header">
+                                       <i class="bi bi-person-circle"></i>
+                                       <div class="comment-user">
+                                           <span class="comment-author">Juan Pérez</span>
+                                           <span class="comment-date">Hace 2 días</span>
+                                       </div>
+                                   </div>
+                                   <p class="comment-text">¡Excelente película! La recomiendo totalmente.</p>
+                               </div>
+                           </div>
+           
+                       </div>
+                   </section>
+               `;
+           
+        await loadComments(movie.id);
+
+        const formComentario = document.getElementById('formComentario');
+        if (formComentario) {
+            formComentario.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                showLoader();
+                
+                try {
+                    const urlObj = new URL(window.location.href);
+         const params = new URLSearchParams(urlObj.search);
+                    const movieId = params.get("movie");
+
+                    const formData = new FormData(e.target);
+                    formData.append("movie", movieId);
+
+                    const response = await fetch('src/controllers/comentario.php?op=insertar', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    if (!response.ok) throw new Error("Error en la respuesta del servidor");
+                    const data = await response.json();
+
+                    if (data.tipo === "success") {
+                        showMessage(data.msg, 'success', 2000);
+                        setTimeout(() => window.location.reload(), 2000); 
+                    } else {
+                        showMessage(data.msg, 'error');
+                    }
+                } catch (error) {
+                    showMessage(error.message || 'Error al publicar comentario', 'error');
+                } finally {
+                    hideLoader(); 
+                }
+            });
         }
-        
-        commentList.innerHTML = comments.map(comment => `
-            <div class="comment-item">
-                <div class="comment-header">
-                    <i class="bi bi-person-circle"></i>
-                    <div class="comment-user">
-                        <span class="comment-author">${comment.nombre}</span>
-                        <span class="comment-date">${formatCommentDate(comment.fecha)}</span>
-                    </div>
-                </div>
-                <p class="comment-text">${comment.comentario}</p>
-            </div>
-        `).join('');
-        
     } catch (error) {
-        console.error('Error al cargar comentarios:', error);
-        document.getElementById('commentList').innerHTML = 
-            '<p class="error-comments">Error al cargar comentarios. Intenta recargar la página.</p>';
+        showMessage('Error al cargar detalles de la película', 'error');
+    } finally {
+        hideLoader(); 
     }
 }
 
+async function loadComments(movieId) {
+    const commentList = document.getElementById('commentList');
+    if (!commentList) return;
+
+    showLoader(); 
+    try {
+        const response = await fetch(`src/controllers/comentario.php?op=listar&movieId=${movieId}`);
+        if (!response.ok) throw new Error("Error al cargar comentarios");
+        
+        const comments = await response.json();
+        
+        commentList.innerHTML = comments.length === 0 
+            ? '<p class="no-comments">No hay comentarios aún. ¡Sé el primero en comentar!</p>'
+            : comments.map(comment => `
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <i class="bi bi-person-circle"></i>
+                        <div class="comment-user">
+                            <span class="comment-author">${comment.nombre}</span>
+                            <span class="comment-date-user">${formatCommentDate(comment.fecha)}</span>
+                        </div>
+                    </div>
+                    <p class="comment-text">${comment.comentario}</p>
+                </div>
+            `).join('');
+    } catch (error) {
+        commentList.innerHTML = '<p class="error-comments">Error al cargar comentarios. Intenta recargar la página.</p>';
+        showMessage('Error al cargar comentarios', 'error');
+    } finally {
+        hideLoader(); 
+    }
+}
 function formatCommentDate(dateString) {
     const date = new Date(dateString);
     const now = new Date();
@@ -445,14 +463,14 @@ function setupClickOutside() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-function getGeneros(genreIds) {
+export function getGeneros(genreIds) {
     return genreIds.map(id => generos.find(g => g.id === id)?.name)
         .filter(Boolean)
         .slice(0, 2)
         .join(', ') || 'Género no especificado';
 }
 
-function getColorClass(vote) {
+export function getColorClass(vote) {
     return vote >= 8 ? 'green' : vote >= 5 ? 'orange' : 'red';
 }
 
@@ -462,7 +480,7 @@ function showErrorMessage(message) {
 }
 
 
-async function loadGenreImages() {
+export async function loadGenreImages() {
     const genreCards = document.querySelectorAll('.genre-card');
 
     for (const card of genreCards) {

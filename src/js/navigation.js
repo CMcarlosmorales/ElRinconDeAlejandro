@@ -1,3 +1,6 @@
+import { BASE_URL, API_KEY, API_URL, IMG_URL, getGeneros, loadMovieDetails,loadGenreImages, getColorClass, setupTVShowClickHandlers  } from "./api.js";
+import { showLoader, hideLoader, showMessage } from "./app.js";
+
 document.addEventListener('DOMContentLoaded', () => {
     setupNavigation();
     const initialSection = getCurrentSection();
@@ -25,10 +28,10 @@ function getCurrentSection() {
     return movieId || tvId ? 'detalle' : urlParams.get('section') || 'inicio';
 }
 
-async function loadSection(section) {
+export async function loadSection(section) {
     const mainContent = document.querySelector('.main-content');
     try {
-        mainContent.classList.add('loading');
+        showLoader()
 
         if (section === 'detalle') {
             const urlParams = new URLSearchParams(window.location.search);
@@ -49,6 +52,7 @@ async function loadSection(section) {
         if (!response.ok) throw new Error('Sección no encontrada');
 
         mainContent.innerHTML = await response.text();
+        
 
         switch (section) {
             case 'inicio':
@@ -70,9 +74,10 @@ async function loadSection(section) {
 
         updateActiveLink(section);
     } catch (error) {
-        mainContent.innerHTML = `<div class="error">${error.message}</div>`;
+        showMessage(error.message, error)
+    
     } finally {
-        mainContent.classList.remove('loading');
+        hideLoader();
     }
 }
 
@@ -130,13 +135,13 @@ function initPerfil (){
 }
 
 
-async function getTVShows(url) {
+export async function getTVShows(url) {
     try {
         const response = await fetch(url);
         const data = await response.json();
         showTVShows(data.results);
     } catch (error) {
-        showErrorMessage(error.message);
+        showMessage(error.message, 'error');
     }
 }
 

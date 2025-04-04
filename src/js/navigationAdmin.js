@@ -1,9 +1,10 @@
+import { showLoader, showMessage, hideLoader } from "./app.js";
 document.addEventListener('DOMContentLoaded', () => {
     const mainContent = document.querySelector('.admin-main');
     
-    // Función para cargar secciones
     const loadSection = async (section) => {
         try {
+            showLoader(); 
             mainContent.classList.add('loading');
             
             const response = await fetch(`../../../src/Pages/admin/sections/${section}.php`);
@@ -14,20 +15,18 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContent.innerHTML = html;
             
             history.pushState({ section }, '', `?section=${section}`);
+            showMessage(`Sección ${section} cargada`, 'success', 1000);
             
         } catch (error) {
-            mainContent.innerHTML = `
-                <div class="error">
-                    <i class="bi bi-exclamation-triangle"></i>
-                    ${error.message}
-                </div>
-            `;
+            showMessage(error.message, 'error');
         } finally {
+            hideLoader(); 
             mainContent.classList.remove('loading');
         }
     };
+
     document.querySelectorAll('.admin-nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
+        link.addEventListener('click', async (e) => {
             e.preventDefault();
             const section = e.target.closest('a').dataset.section;
             
@@ -36,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             );
             e.target.closest('a').classList.add('active');
             
-            loadSection(section);
+            await loadSection(section);
         });
     });
 
@@ -49,42 +48,46 @@ document.addEventListener('DOMContentLoaded', () => {
             loadSection(e.state.section);
         }
     });
-});
 
-document.querySelectorAll('.comment-card').forEach(card => {
-    const movieId = card.dataset.movieId;
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=TU_API_KEY`)
-        .then(response => response.json())
-        .then(data => {
-            card.querySelector('small').textContent = data.title;
-        });
-});
-
-document.getElementById('logoutButton').addEventListener('click', (e) => {
-    e.preventDefault();
-    
-    if (confirm('¿Estás seguro de cerrar sesión?')) {
-        fetch('../../controllers/logout.php')
-            .then(response => {
+ document.getElementById('logoutButton')?.addEventListener('click', async (e) => {
+        e.preventDefault();
+        
+        showMessage('¿Estás seguro de cerrar sesión?', 'info', 0, true, async () => {
+            showLoader();
+            try {
+                const response = await fetch('src/Pages/admin/logoutAdmin.php');
                 if (response.redirected) {
-                    window.location.href = response.url;
+                    showMessage('Sesión cerrada', 'success', 1000);
+                    setTimeout(() => window.location.href = response.url, 1000);
                 }
-            })
-            .catch(error => console.error('Error:', error));
-    }
-});
+            } catch (error) {
+                showMessage('Error al cerrar sesión', 'error');
+            } finally {
+                hideLoader();
+            }
+        });
+    });
 
-document.addEventListener('DOMContentLoaded', () => {
     const sidebar = document.querySelector('.admin-sidebar');
     const sidebarToggle = document.querySelector('.sidebar-toggle');
     
-    sidebarToggle.addEventListener('click', () => {
+    sidebarToggle?.addEventListener('click', () => {
         sidebar.classList.toggle('active');
+        showMessage('Menú ' + (sidebar.classList.contains('active') ? 'abierto' : 'cerrado'), 'info', 1500);
     });
 
-    document.addEventListener('click', (e) => {
-        if (!sidebar.contains(e.target) && !e.target.closest('.sidebar-toggle')) {
-            sidebar.classList.remove('active');
-        }
+    document.querySelectorAll('.comment-card').forEach(card => {
+        const movieId = card.dataset.movieId;
+        showLoader(card); 
+        fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=TU_API_KEY`)
+            .then(response => response.json())
+            .then(data => {
+                card.querySelector('small').textContent = data.title;
+            })
+            .catch(error => {
+                showMessage('Error al cargar título', 'error', 3000, false, card);
+                card.querySelector('small').textContent = 'Título no disponible';
+            })
+            .finally(() => hideLoader(card));
     });
 });

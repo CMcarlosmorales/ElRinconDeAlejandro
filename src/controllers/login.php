@@ -15,24 +15,39 @@ try {
             $nombre = $_POST['nombreRegistro'] ?? '';
             $email = $_POST['emailRegistro'] ?? '';
             $password = $_POST['passwordRegistro'] ?? '';
-
+        
             if (empty($nombre) || empty($email) || empty($password)) {
                 throw new Exception("Todos los campos son obligatorios");
             }
-
+        
             if ($usuario->verificarCorreo($email)->num_rows > 0) {
                 throw new Exception("El correo ya está registrado");
             }
-
+        
             $claveHash = hash('sha256', $password);
-
+        
             if ($usuario->insertar($nombre, $email, $claveHash)) {
-                echo json_encode(["tipo" => "success", "msg" => "Registro exitoso"]);
+                // Obtener los datos del nuevo usuario registrado
+                $nuevoUsuario = $usuario->obtenerPorEmail($email); // Necesitarás implementar este método
+                
+                // Crear la sesión
+                $_SESSION['usuario'] = [
+                    'id' => $nuevoUsuario['id'],
+                    'nombre' => $nuevoUsuario['nombre'],
+                    'correo' => $nuevoUsuario['correo']
+                ];
+        
+                echo json_encode([
+                    "tipo" => "success", 
+                    "msg" => "Registro exitoso",
+                    "usuario" => [
+                        "nombre" => $nuevoUsuario['nombre']
+                    ]
+                ]);
             } else {
                 throw new Exception("Error al registrar el usuario");
             }
             break;
-
         case 'verificar':
             $email = $_POST['emailLogin'] ?? '';
             $password = $_POST['passwordLogin'] ?? '';

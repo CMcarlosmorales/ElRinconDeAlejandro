@@ -1,57 +1,67 @@
-async function desactivar(id) {
-    const iduser = id;
+import { showLoader, showMessage, hideLoader } from "./app.js";
 
-    const confirmacion = confirm("¿Estas seguro de suspender al usuario?");
+export async function desactivar(id) {
+    const iduser = id;
+    const confirmacion = confirm("¿Estás seguro de suspender al usuario?");
 
     if (confirmacion) {
+        showLoader(); // Mostrar loader al iniciar
         try {
             const response = await fetch('../../../src/controllers/usuario.php?op=desactivar', {
-                method: 'POST', // Método HTTP
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded', // Indicar el formato
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `id=${encodeURIComponent(iduser)}` // Convertir el dato al formato URL-encoded
+                body: `id=${encodeURIComponent(iduser)}`
             });
 
+            const data = await response.text();
+            const dato = JSON.parse(data);
+            
             if (response.ok) {
-                const respuestaServidor = await response.text();
-                dato = JSON.parse(respuestaServidor) // Leer la respuesta del servidor
-                alert(dato.msg);
-                location.reload();
+                showMessage(dato.msg, 'success', 3000);
+                setTimeout(() => location.reload(), 3000); // Recargar después de 3 segundos
             } else {
-                throw new Error(`Error: ${response.statusText}`);
+                showMessage(dato.msg || 'Error al desactivar usuario', 'error');
             }
         } catch (error) {
-            console.error('Hubo un problema al enviar el dato:', error);
+            console.error('Error:', error);
+            showMessage('Error de conexión con el servidor', 'error');
+        } finally {
+            hideLoader(); // Ocultar loader al finalizar
         }
     }
 };
 
-async function activar(id) {
+export async function activar(id) {
     const iduser = id;
-
-    const confirmacion = confirm("¿Estas seguro de activar al usuario?");
+    const confirmacion = confirm("¿Estás seguro de activar al usuario?");
 
     if (confirmacion) {
+        showLoader(); // Mostrar loader al iniciar
         try {
             const response = await fetch('../../../src/controllers/usuario.php?op=activar', {
-                method: 'POST', // Método HTTP
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded', // Indicar el formato
+                    'Content-Type': 'application/x-www-form-urlencoded',
                 },
-                body: `id=${encodeURIComponent(iduser)}` // Convertir el dato al formato URL-encoded
+                body: `id=${encodeURIComponent(iduser)}`
             });
 
+            const data = await response.text();
+            const dato = JSON.parse(data);
+            
             if (response.ok) {
-                const respuestaServidor = await response.text();
-                dato = JSON.parse(respuestaServidor) // Leer la respuesta del servidor
-                alert(dato.msg);
-                location.reload();
+                showMessage(dato.msg, 'success', 3000);
+                setTimeout(() => location.reload(), 3000); // Recargar después de 3 segundos
             } else {
-                throw new Error(`Error: ${response.statusText}`);
+                showMessage(dato.msg || 'Error al activar usuario', 'error');
             }
         } catch (error) {
-            console.error('Hubo un problema al enviar el dato:', error);
+            console.error('Error:', error);
+            showMessage('Error de conexión con el servidor', 'error');
+        } finally {
+            hideLoader(); // Ocultar loader al finalizar
         }
     }
 };

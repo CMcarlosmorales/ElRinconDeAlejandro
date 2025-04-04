@@ -27,13 +27,13 @@ try{
                 if(password_verify($password, $admin['password_hash'])){
                     $_SESSION['admin_logged'] = true;
                     $_SESSION['admin_id'] = $admin['id'];
-                    header("Location: ../pages/admin/dashboard.php"); 
+                    header("Location: /src/pages/admin/dashboard.php"); 
                     exit;
                 }
             }
 
             $_SESSION['admin_error'] = "Credenciales incorrectas";
-            header("Location: ./pages/admin/login.php"); 
+            header("Location: /src/pages/admin/login.php"); 
             break;
     }
 }catch (Exception $e) {

@@ -37,7 +37,7 @@ if (!isset($_SESSION['admin_logged'])) {
         </li>
         <li class="nav-divider"></li>
         <li>
-            <a href="#"
+            <a 
                 class="admin-nav-link text-danger"
                 id="logoutButton">
                 <i class="bi bi-box-arrow-right"></i> Cerrar Sesión

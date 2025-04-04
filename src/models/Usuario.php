@@ -3,6 +3,15 @@
     require "../config/Conexion.php";
     class Usuario{
             private $conexion;
+
+            public function obtenerPorEmail($email) {
+                $sql = "SELECT id, nombre, correo FROM usuarios WHERE correo = ?";
+                $stmt = $this->conexion->prepare($sql);
+                $stmt->bind_param("s", $email);
+                $stmt->execute();
+                $resultado = $stmt->get_result();
+                return $resultado->fetch_assoc();
+            }
         
             public function __construct() {
                 $this->conexion = new mysqli(DB_HOST, DB_USERNAME, DB_PASSWORD, DB_NAME);

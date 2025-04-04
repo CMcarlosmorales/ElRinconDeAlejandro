@@ -20,8 +20,8 @@ $stats = [
 ?>
 
 <section class="admin-section">
-    <h1 ><i class="bi bi-speedometer2"></i> Dashboard</h1>
-    
+    <h1><i class="bi bi-speedometer2"></i> Dashboard</h1>
+
     <div class="admin-stats">
         <div class="stat-card">
             <i class="bi bi-people-fill"></i>
@@ -30,12 +30,19 @@ $stats = [
                 <p>Usuarios Registrados</p>
             </div>
         </div>
-        
+
         <div class="stat-card">
             <i class="bi bi-chat-square-text"></i>
             <h3><?= $stats['comentarios'] ?></h3>
             <p>Comentarios Totales</p>
         </div>
-        
+
+        <div class="stat-card">
+            <button class="backup-btn" id="triggerBackup">
+                <i class="bi bi-database-check"></i>
+                Generar Respaldo
+            </button>
+            <p>Respaldar Base de datos</p>
+        </div>
     </div>
 </section>

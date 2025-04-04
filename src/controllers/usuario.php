@@ -11,6 +11,7 @@ $nombre = $_POST["nombreRegistro"] ?? "";
 $email = $_POST["emailRegistro"] ?? "";
 $clave = $_POST["passwordRegistro"] ?? "";
 
+
 switch ($_GET["op"]) {
     case 'insertar':
         try {

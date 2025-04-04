@@ -28,7 +28,8 @@ if (!isset($_SESSION['admin_logged'])) {
     </div>
 
    
-    <script src="../../../src/js/navigationAdmin.js"></script>
-    <script src="../../../src/js/appAdmin.js"></script>
+    <script type="module" src="../../../src/js/navigationAdmin.js"></script>
+    <script type="module" src="../../../src/js/appAdmin.js"></script>
+    <script type="module" src="../../js/app.js"></script>
 </body>
 </html>

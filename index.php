@@ -23,10 +23,11 @@ session_start();
     <?php include './src/pages/login.php'; ?>
 
 </body>
-<script src="./src/js/api.js"></script>
-<script src="./src/js/navigation.js"></script>
-<script src="./src/js/header.js"></script>
-<script src="./src/js/applogin.js"></script>
+<script type="module" src="./src/js/app.js"></script>
+<script type="module"src="./src/js/api.js"></script>
+<script type="module" src="./src/js/navigation.js"></script>
+<script type="module" src="./src/js/header.js"></script>
+<script type="module" src="./src/js/applogin.js"></script>
 
 
 <script>

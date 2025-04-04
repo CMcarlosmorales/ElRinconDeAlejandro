@@ -40,6 +40,9 @@ if (!$comentarios) {
                     <span class="comment-date"><?= $fecha ?></span>
                 </div>
                 <p class="comment-text"><?= htmlspecialchars($comentario['comentario']) ?></p>
+                <button class="comment-delete-btn admin-visible" title="Eliminar comentario">
+                        <i class="bi bi-trash"></i>
+                </button>
             </div>
         <?php endwhile; ?>
     </div>
