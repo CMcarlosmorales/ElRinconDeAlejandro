@@ -11,6 +11,11 @@
             return ejecutarConsulta($sql);
         }
 
+        public function eliminarComentario($idcomentario){
+            $sql = "DELETE FROM comentario WHERE idcomentario='$idcomentario'";
+            return ejecutarConsulta($sql);
+        }
+
         public function listarComentario($idmovie){
             $sql = "SELECT c.*, u.nombre FROM comentario c INNER JOIN usuario u ON c.idusuario=u.id WHERE c.idmovie='$idmovie'";
             return ejecutarConsulta($sql);

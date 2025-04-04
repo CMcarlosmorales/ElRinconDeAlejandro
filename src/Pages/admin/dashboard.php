@@ -31,5 +31,6 @@ if (!isset($_SESSION['admin_logged'])) {
     <script type="module" src="../../../src/js/navigationAdmin.js"></script>
     <script type="module" src="../../../src/js/appAdmin.js"></script>
     <script type="module" src="../../js/app.js"></script>
+    <script type="module" src="../../../src/js/appBackup.js"></script>
 </body>
 </html>

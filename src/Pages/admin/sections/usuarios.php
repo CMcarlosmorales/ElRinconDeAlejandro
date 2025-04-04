@@ -82,7 +82,7 @@ try {
                         <button class="btn btn--ban <?= $usuario['is_banned'] === 1 ? 'btn--unban' : '' ?>"
                             data-id="<?= $usuario['id'] ?>"
                             title="<?= $usuario['is_banned'] ? 'Reactivar usuario' : 'Suspender usuario' ?>" 
-                            onclick="<?= $usuario['is_banned'] === 0 ? "desactivar({$usuario['id']})" : "activar({$usuario['id']})" ?>">
+                            onclick="<?= $usuario['is_banned'] === 0 ? 'desactivar(' . $usuario['id'] . ')' : 'activar(' . $usuario['id'] . ')' ?>">
                             <i class="bi <?= $usuario['is_banned'] ? 'bi-unlock' : 'bi-lock' ?>"></i>
                             <?= $usuario['is_banned'] ? 'Desbanear' : 'Banear' ?>
                         </button>

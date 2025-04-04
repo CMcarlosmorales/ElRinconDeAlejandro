@@ -40,7 +40,7 @@ if (!$comentarios) {
                     <span class="comment-date"><?= $fecha ?></span>
                 </div>
                 <p class="comment-text"><?= htmlspecialchars($comentario['comentario']) ?></p>
-                <button class="comment-delete-btn admin-visible" title="Eliminar comentario">
+                <button class="comment-delete-btn admin-visible" title="Eliminar comentario" onclick="eliminarComentario(<?= $comentario['idcomentario'] ?>)">
                         <i class="bi bi-trash"></i>
                 </button>
             </div>

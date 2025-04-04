@@ -28,6 +28,15 @@ try{
                 throw new Exception("Error al publicar comentario");
             }
             break;
+        case 'eliminar':
+            $idcomentario = $_POST['idcomentario'] ?? '';
+
+            if($comentario->eliminarComentario($idcomentario)){
+                echo json_encode(["tipo" => "success", "msg" => "Comentario eliminado"]);
+            } else {
+                throw new Exception("Error al eliminar comentario");
+            }
+            break;
         case 'listar':
             $idmovie = $_GET['movieId'] ?? '';
 
