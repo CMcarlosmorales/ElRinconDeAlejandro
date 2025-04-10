@@ -1,3 +1,7 @@
+# Errores
+https://prnt.sc/AAJeVbeBEwDM
+https://prnt.sc/-AL_E3JJJeoS
+...
 # Correcciones Interfaz de Usuario:
 
 
